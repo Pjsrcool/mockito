@@ -16,6 +16,7 @@ import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 import org.mockito.internal.configuration.plugins.Plugins;
 import org.mockito.internal.debugging.WarningsCollector;
+import org.mockito.internal.debugging.WarningsFinder;
 import org.mockito.internal.runners.InternalRunner;
 import org.mockito.internal.runners.RunnerFactory;
 import org.mockito.plugins.MockitoLogger;
@@ -45,7 +46,7 @@ public class ConsoleSpammingMockitoJUnitRunner extends Runner implements Filtera
     public void run(RunNotifier notifier) {
         RunListener listener =
                 new RunListener() {
-                    WarningsCollector warningsCollector;
+                    WarningsCollector warningsCollector = new WarningsCollector();
 
                     @Override
                     public void testStarted(Description description) throws Exception {
