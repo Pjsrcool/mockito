@@ -20,7 +20,7 @@ class RetrieveGenericsForDefaultAnswers {
 
     private static final MockitoCore MOCKITO_CORE = new MockitoCore();
 
-    static Object returnTypeForMockWithCorrectGenerics(
+    @Nullable static Object returnTypeForMockWithCorrectGenerics(
             InvocationOnMock invocation, AnswerCallback answerCallback) {
         Class<?> type = invocation.getMethod().getReturnType();
 
@@ -58,6 +58,7 @@ class RetrieveGenericsForDefaultAnswers {
      * @param type the return type of the method
      * @return a non-null instance if the type has been resolve. Null otherwise.
      */
+    @Nullable
     private static Object delegateChains(final Class<?> type) {
         final ReturnsEmptyValues returnsEmptyValues = new ReturnsEmptyValues();
         Object result = returnsEmptyValues.returnValueFor(type);
@@ -79,7 +80,6 @@ class RetrieveGenericsForDefaultAnswers {
         if (result == null) {
             result = new ReturnsMoreEmptyValues().returnValueFor(type);
         }
-
         return result;
     }
 
@@ -90,7 +90,7 @@ class RetrieveGenericsForDefaultAnswers {
      * @param returnType the expected return type
      * @return the type or null if not found
      */
-    private static Class<?> findTypeFromGeneric(
+    @Nullable private static Class<?> findTypeFromGeneric(
             final InvocationOnMock invocation, final TypeVariable returnType) {
         // Class level
         final MockCreationSettings mockSettings =
@@ -140,6 +140,6 @@ class RetrieveGenericsForDefaultAnswers {
     }
 
     interface AnswerCallback {
-        Object apply(Class<?> type);
+        Object apply(@Nullable Class<?> type);
     }
 }

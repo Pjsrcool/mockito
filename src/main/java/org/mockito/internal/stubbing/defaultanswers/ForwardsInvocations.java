@@ -6,6 +6,7 @@ package org.mockito.internal.stubbing.defaultanswers;
 
 import static org.mockito.internal.exceptions.Reporter.delegatedMethodDoesNotExistOnDelegate;
 import static org.mockito.internal.exceptions.Reporter.delegatedMethodHasWrongReturnType;
+import static org.mockito.internal.exceptions.Reporter.nullPassedToVerify;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +18,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.plugins.MemberAccessor;
 import org.mockito.stubbing.Answer;
 
+import javax.annotation.Nullable;
+
 /**
  * Internal answer to forward invocations on a real instance.
  *
@@ -25,7 +28,7 @@ import org.mockito.stubbing.Answer;
 public class ForwardsInvocations implements Answer<Object>, Serializable {
     private static final long serialVersionUID = -8343690268123254910L;
 
-    private Object delegatedObject = null;
+    private Object delegatedObject;
 
     public ForwardsInvocations(Object delegatedObject) {
         this.delegatedObject = delegatedObject;

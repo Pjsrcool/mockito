@@ -19,6 +19,8 @@ public class ReturnsMocks implements Answer<Object>, Serializable {
     private final Answer<Object> delegate = new ReturnsMoreEmptyValues();
 
     @Override
+    @Nullable
+    @SuppressWarnings("NullAway") //todo: NullAway to avoid superclass errors
     public Object answer(final InvocationOnMock invocation) throws Throwable {
         Object defaultReturnValue = delegate.answer(invocation);
 

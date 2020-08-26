@@ -15,6 +15,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.invocation.Location;
 import org.mockito.stubbing.Answer;
 
+import javax.annotation.Nullable;
+
 /**
  * Optional Answer that can be used with
  * {@link Mockito#mock(Class, Answer)}
@@ -40,6 +42,7 @@ public class ReturnsSmartNulls implements Answer<Object>, Serializable {
     private final Answer<Object> delegate = new ReturnsMoreEmptyValues();
 
     @Override
+    @Nullable
     public Object answer(final InvocationOnMock invocation) throws Throwable {
         Object defaultReturnValue = delegate.answer(invocation);
 
@@ -51,6 +54,7 @@ public class ReturnsSmartNulls implements Answer<Object>, Serializable {
                 invocation,
                 new RetrieveGenericsForDefaultAnswers.AnswerCallback() {
                     @Override
+                    @Nullable
                     public Object apply(Class<?> type) {
                         if (type == null) {
                             return null;
