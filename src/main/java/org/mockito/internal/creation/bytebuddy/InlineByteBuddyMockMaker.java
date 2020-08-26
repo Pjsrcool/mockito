@@ -104,9 +104,9 @@ import static org.mockito.internal.util.StringUtil.*;
 public class InlineByteBuddyMockMaker
         implements ClassCreatingMockMaker, InlineMockMaker, Instantiator {
 
-    private static final Instrumentation INSTRUMENTATION;
+    @Nullable private static final Instrumentation INSTRUMENTATION;
 
-    private static final Throwable INITIALIZATION_ERROR;
+    @Nullable private static final Throwable INITIALIZATION_ERROR;
 
     static {
         Instrumentation instrumentation;
@@ -204,7 +204,7 @@ public class InlineByteBuddyMockMaker
 
     private final ThreadLocal<Object> currentSpied = new ThreadLocal<>();
 
-    public InlineByteBuddyMockMaker() {
+    @Nullable public InlineByteBuddyMockMaker() {
         if (INITIALIZATION_ERROR != null) {
             String detail;
             if (System.getProperty("java.specification.vendor", "")
@@ -476,6 +476,7 @@ public class InlineByteBuddyMockMaker
     @Override
     public TypeMockability isTypeMockable(final Class<?> type) {
         return new TypeMockability() {
+            @SuppressWarnings("NullAway") //todo: [NullAway] real error
             @Override
             public boolean mockable() {
                 return INSTRUMENTATION.isModifiableClass(type) && !EXCLUDES.contains(type);

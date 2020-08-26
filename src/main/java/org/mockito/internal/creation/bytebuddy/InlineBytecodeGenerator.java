@@ -43,6 +43,8 @@ import org.mockito.internal.util.concurrent.WeakConcurrentMap;
 import org.mockito.internal.util.concurrent.WeakConcurrentSet;
 import org.mockito.mock.SerializableMode;
 
+import javax.annotation.Nullable;
+
 import static net.bytebuddy.implementation.MethodDelegation.*;
 import static net.bytebuddy.implementation.bind.annotation.TargetMethodAnnotationDrivenBinder.ParameterBinder.ForFixedValue.OfConstant.*;
 import static net.bytebuddy.matcher.ElementMatchers.*;
@@ -67,7 +69,7 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
                             Double.class,
                             String.class));
 
-    private final Instrumentation instrumentation;
+    @Nullable private final Instrumentation instrumentation;
     private final ByteBuddy byteBuddy;
     private final WeakConcurrentSet<Class<?>> mocked, flatMocked;
     private final BytecodeGenerator subclassEngine;
@@ -78,7 +80,7 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
     private volatile Throwable lastException;
 
     public InlineBytecodeGenerator(
-            Instrumentation instrumentation,
+            @Nullable Instrumentation instrumentation,
             WeakConcurrentMap<Object, MockMethodInterceptor> mocks,
             DetachedThreadLocal<Map<Class<?>, MockMethodInterceptor>> mockedStatics,
             Predicate<Class<?>> isMockConstruction,

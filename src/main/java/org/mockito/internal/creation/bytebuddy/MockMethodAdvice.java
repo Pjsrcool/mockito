@@ -176,6 +176,7 @@ public class MockMethodAdvice extends MockMethodDispatcher {
     }
 
     @Override
+    @Nullable
     public Object handleConstruction(
             Class<?> type, Object object, Object[] arguments, String[] parameterTypeNames) {
         return onConstruction.apply(type, object, arguments, parameterTypeNames);
