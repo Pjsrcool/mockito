@@ -12,6 +12,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.ValidableAnswer;
 
+import javax.annotation.Nullable;
+
 public class DoesNothing implements Answer<Object>, ValidableAnswer, Serializable {
 
     private static final long serialVersionUID = 4840880517740698416L;
@@ -25,6 +27,7 @@ public class DoesNothing implements Answer<Object>, ValidableAnswer, Serializabl
     }
 
     @Override
+    @Nullable
     public Object answer(InvocationOnMock invocation) {
         return null;
     }

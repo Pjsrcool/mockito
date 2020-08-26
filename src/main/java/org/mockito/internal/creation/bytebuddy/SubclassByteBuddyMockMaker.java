@@ -15,6 +15,8 @@ import org.mockito.internal.util.Platform;
 import org.mockito.invocation.MockHandler;
 import org.mockito.mock.MockCreationSettings;
 
+import javax.annotation.Nullable;
+
 /**
  * Subclass based mock maker.
  *
@@ -139,11 +141,12 @@ public class SubclassByteBuddyMockMaker implements ClassCreatingMockMaker {
                         + "'";
     }
 
-    private static String describeClass(Object instance) {
+    private static String describeClass(@Nullable Object instance) {
         return instance == null ? "null" : describeClass(instance.getClass());
     }
 
     @Override
+    @Nullable
     public MockHandler getHandler(Object mock) {
         if (!(mock instanceof MockAccess)) {
             return null;

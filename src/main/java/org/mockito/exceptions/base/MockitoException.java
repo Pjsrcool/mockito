@@ -6,6 +6,8 @@ package org.mockito.exceptions.base;
 
 import org.mockito.internal.exceptions.stacktrace.ConditionalStackTraceFilter;
 
+import javax.annotation.Nullable;
+
 /**
  * Raised by mockito to emit an error either due to Mockito, or due to the User.
  * All exception classes that inherit from this class will have the stack trace filtered.
@@ -25,7 +27,7 @@ public class MockitoException extends RuntimeException {
     private StackTraceElement[] unfilteredStackTrace;
 
     // TODO lazy filtered stacktrace initialization
-    public MockitoException(String message, Throwable t) {
+    public MockitoException(@Nullable String message, @Nullable Throwable t) {
         super(message, t);
         filterStackTrace();
     }

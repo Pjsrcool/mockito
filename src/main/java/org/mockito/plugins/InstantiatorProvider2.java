@@ -7,6 +7,8 @@ package org.mockito.plugins;
 import org.mockito.creation.instance.Instantiator;
 import org.mockito.mock.MockCreationSettings;
 
+import javax.annotation.Nullable;
+
 /**
  * <p>
  *     Mockito will invoke this interface in order to fetch an instance instantiator provider.
@@ -54,5 +56,5 @@ public interface InstantiatorProvider2 {
      *
      * @since 2.15.4
      */
-    Instantiator getInstantiator(MockCreationSettings<?> settings);
+    Instantiator getInstantiator(@Nullable MockCreationSettings<?> settings);
 }

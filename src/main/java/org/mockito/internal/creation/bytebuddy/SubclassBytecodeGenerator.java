@@ -41,6 +41,8 @@ import org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializ
 import org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.DispatcherDefaultingToRealMethod;
 import org.mockito.mock.SerializableMode;
 
+import javax.annotation.Nullable;
+
 class SubclassBytecodeGenerator implements BytecodeGenerator {
 
     private static final String CODEGEN_PACKAGE = "org.mockito.codegen.";
@@ -49,7 +51,7 @@ class SubclassBytecodeGenerator implements BytecodeGenerator {
     private final ModuleHandler handler;
     private final ByteBuddy byteBuddy;
     private final Random random;
-    private final Implementation readReplace;
+    @Nullable private final Implementation readReplace;
     private final ElementMatcher<? super MethodDescription> matcher;
 
     private final Implementation dispatcher = to(DispatcherDefaultingToRealMethod.class);
@@ -72,7 +74,7 @@ class SubclassBytecodeGenerator implements BytecodeGenerator {
 
     protected SubclassBytecodeGenerator(
             SubclassLoader loader,
-            Implementation readReplace,
+            @Nullable Implementation readReplace,
             ElementMatcher<? super MethodDescription> matcher) {
         this.loader = loader;
         this.readReplace = readReplace;

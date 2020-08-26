@@ -37,6 +37,8 @@ import org.mockito.mock.MockCreationSettings;
 import org.mockito.plugins.InlineMockMaker;
 import org.mockito.plugins.MemberAccessor;
 
+import javax.annotation.Nullable;
+
 import static org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.*;
 import static org.mockito.internal.util.StringUtil.*;
 
@@ -293,6 +295,7 @@ public class InlineByteBuddyMockMaker
     }
 
     @Override
+    @Nullable
     public <T> T createMock(MockCreationSettings<T> settings, MockHandler handler) {
         return doCreateMock(settings, handler, false);
     }
@@ -311,7 +314,7 @@ public class InlineByteBuddyMockMaker
         }
     }
 
-    private <T> T doCreateMock(
+    @Nullable private <T> T doCreateMock(
             MockCreationSettings<T> settings,
             MockHandler handler,
             boolean nullOnNonInlineConstruction) {
@@ -412,6 +415,7 @@ public class InlineByteBuddyMockMaker
     }
 
     @Override
+    @Nullable
     public MockHandler getHandler(Object mock) {
         MockMethodInterceptor interceptor;
         if (mock instanceof Class<?>) {
@@ -583,7 +587,7 @@ public class InlineByteBuddyMockMaker
         }
     }
 
-    private Object makeStandardArgument(Class<?> type) {
+    @Nullable private Object makeStandardArgument(Class<?> type) {
         if (type == boolean.class) {
             return false;
         } else if (type == byte.class) {

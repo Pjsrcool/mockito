@@ -19,6 +19,7 @@ public class InstantiatorProvider2Adapter implements InstantiatorProvider {
     }
 
     @Override
+    @SuppressWarnings("NullAway") //todo: NullAway not sure why it thinks e.getMessage() is nullable
     public Instantiator getInstantiator(final MockCreationSettings<?> settings) {
         return new Instantiator() {
             @Override
