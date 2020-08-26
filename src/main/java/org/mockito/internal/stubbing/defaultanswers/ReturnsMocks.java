@@ -11,6 +11,8 @@ import org.mockito.internal.creation.MockSettingsImpl;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import javax.annotation.Nullable;
+
 public class ReturnsMocks implements Answer<Object>, Serializable {
 
     private static final long serialVersionUID = -6755257986994634579L;
@@ -27,7 +29,9 @@ public class ReturnsMocks implements Answer<Object>, Serializable {
         return RetrieveGenericsForDefaultAnswers.returnTypeForMockWithCorrectGenerics(
                 invocation,
                 new RetrieveGenericsForDefaultAnswers.AnswerCallback() {
+                    @Nullable
                     @Override
+                    @SuppressWarnings("NullAway") //todo: NullAway - added to avoid superclass errors
                     public Object apply(Class<?> type) {
                         if (type == null) {
                             return null;
