@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.junit;
 
+import org.mockito.NullAwayUtil;
+
 import javax.annotation.Nullable;
 
 public class DefaultTestFinishedEvent implements TestFinishedEvent {
@@ -19,12 +21,15 @@ public class DefaultTestFinishedEvent implements TestFinishedEvent {
     }
 
     @Override
+    @Nullable
     public Throwable getFailure() {
         return testFailure;
     }
 
     @Override
     public String getTestName() {
-        return testClassInstance.getClass().getSimpleName() + "." + testMethodName;
+        //todo: NullAway: real bug
+        Object nonnullTestClassInstance = NullAwayUtil.castToNonNull(testClassInstance);
+        return nonnullTestClassInstance.getClass().getSimpleName() + "." + testMethodName;
     }
 }

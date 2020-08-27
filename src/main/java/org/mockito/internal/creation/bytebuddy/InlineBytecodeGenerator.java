@@ -36,6 +36,7 @@ import net.bytebuddy.matcher.ElementMatchers;
 import net.bytebuddy.pool.TypePool;
 import net.bytebuddy.utility.OpenedClassReader;
 import net.bytebuddy.utility.RandomString;
+import org.mockito.NullAwayUtil;
 import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.creation.bytebuddy.inject.MockMethodDispatcher;
 import org.mockito.internal.util.concurrent.DetachedThreadLocal;
@@ -75,9 +76,9 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
     private final BytecodeGenerator subclassEngine;
     private final AsmVisitorWrapper mockTransformer;
 
-    private final Method getModule, canRead, redefineModule;
+    @Nullable private final Method getModule, canRead, redefineModule;
 
-    private volatile Throwable lastException;
+    @Nullable private volatile Throwable lastException;
 
     public InlineBytecodeGenerator(
             @Nullable Instrumentation instrumentation,
@@ -163,7 +164,9 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
                 identifier,
                 new MockMethodAdvice(
                         mocks, mockedStatics, identifier, isMockConstruction, onConstruction));
-        instrumentation.addTransformer(this, true);
+        Instrumentation nonnullInstrumentation = NullAwayUtil.castToNonNull(instrumentation);
+        //todo: NullAway: real bug
+        nonnullInstrumentation.addTransformer(this, true);
     }
 
     /**
@@ -247,7 +250,9 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
         if (!targets.isEmpty()) {
             try {
                 assureCanReadMockito(targets);
-                instrumentation.retransformClasses(targets.toArray(new Class<?>[targets.size()]));
+                Instrumentation nonnullInstrumentation = NullAwayUtil.castToNonNull(instrumentation);
+                //todo: NullAway: real bug
+                nonnullInstrumentation.retransformClasses(targets.toArray(new Class<?>[targets.size()]));
                 Throwable throwable = lastException;
                 if (throwable != null) {
                     throw new IllegalStateException(
@@ -277,15 +282,19 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
         }
         Set<Object> modules = new HashSet<Object>();
         try {
+            //todo: NullAway: real bug
+            Method nonnullGetModule = NullAwayUtil.castToNonNull(getModule);
             Object target =
-                    getModule.invoke(
+                nonnullGetModule.invoke(
                             Class.forName(
                                     "org.mockito.internal.creation.bytebuddy.inject.MockMethodDispatcher",
                                     false,
                                     null));
             for (Class<?> type : types) {
-                Object module = getModule.invoke(type);
-                if (!modules.contains(module) && !(Boolean) canRead.invoke(module, target)) {
+                Object module = nonnullGetModule.invoke(type);
+                //todo: NullAway: real bug
+                Method nonnullCanRaed = NullAwayUtil.castToNonNull(canRead);
+                if (!modules.contains(module) && !(Boolean) nonnullCanRaed.invoke(module, target)) {
                     modules.add(module);
                 }
             }
@@ -336,6 +345,7 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
     }
 
     @Override
+    @Nullable
     public byte[] transform(
             ClassLoader loader,
             String className,

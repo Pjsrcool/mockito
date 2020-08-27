@@ -40,13 +40,13 @@ public abstract class MockMethodDispatcher {
     }
 
     @SuppressWarnings({"unused", "NullAway"})
-    //todo: NullAway real errors
+    //todo: NullAway: real bug
     public static boolean isConstructorMock(String identifier, Class<?> type) {
         return DISPATCHERS.get(identifier).isConstructorMock(type);
     }
 
     @SuppressWarnings({"unused", "NullAway"})
-    //todo: NullAway real errors
+    //todo: NullAway: real bug
     public static Object handleConstruction(
             String identifier,
             Class<?> type,

@@ -15,6 +15,8 @@ import org.mockito.junit.VerificationCollector;
 import org.mockito.verification.VerificationMode;
 import org.mockito.verification.VerificationStrategy;
 
+import javax.annotation.Nullable;
+
 /**
  * Mockito implementation of VerificationCollector.
  */
@@ -94,10 +96,12 @@ public class VerificationCollectorImpl implements VerificationCollector {
             this.delegate = delegate;
         }
 
+        @SuppressWarnings("NullAway")
         public void verify(VerificationData data) {
             try {
                 this.delegate.verify(data);
             } catch (AssertionError error) {
+                //todo: NullAway: no sure why here is Nullable
                 VerificationCollectorImpl.this.append(error.getMessage());
             }
         }

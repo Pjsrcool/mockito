@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.mockito.MockSettings;
+import org.mockito.NullAwayUtil;
 import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.creation.settings.CreationSettings;
 import org.mockito.internal.debugging.VerboseMockInvocationLogger;
@@ -35,14 +36,16 @@ import org.mockito.mock.MockName;
 import org.mockito.mock.SerializableMode;
 import org.mockito.stubbing.Answer;
 
+import javax.annotation.Nullable;
+
 @SuppressWarnings("unchecked")
 public class MockSettingsImpl<T> extends CreationSettings<T>
         implements MockSettings, MockCreationSettings<T> {
 
     private static final long serialVersionUID = 4475297236197939569L;
     private boolean useConstructor;
-    private Object outerClassInstance;
-    private Object[] constructorArgs;
+    @Nullable private Object outerClassInstance;
+    @Nullable private Object[] constructorArgs;
 
     @Override
     public MockSettings serializable() {
@@ -148,19 +151,23 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     }
 
     @Override
+    @Nullable
     public Object getOuterClassInstance() {
         return outerClassInstance;
     }
 
     @Override
+    @Nullable
     public Object[] getConstructorArgs() {
         if (outerClassInstance == null) {
             return constructorArgs;
         }
-        List<Object> resultArgs = new ArrayList<Object>(constructorArgs.length + 1);
+        //todo: NullAway: real bug
+        Object[] nonnullConstructorArgs = NullAwayUtil.castToNonNull(constructorArgs);
+        List<Object> resultArgs = new ArrayList<Object>(nonnullConstructorArgs.length + 1);
         resultArgs.add(outerClassInstance);
         resultArgs.addAll(asList(constructorArgs));
-        return resultArgs.toArray(new Object[constructorArgs.length + 1]);
+        return resultArgs.toArray(new Object[nonnullConstructorArgs.length + 1]);
     }
 
     @Override

@@ -8,14 +8,17 @@ import org.junit.runners.model.Statement;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.MockitoSession;
+import org.mockito.NullAwayUtil;
 import org.mockito.internal.session.MockitoSessionLoggerAdapter;
 import org.mockito.plugins.MockitoLogger;
 import org.mockito.quality.Strictness;
 
+import javax.annotation.Nullable;
+
 class JUnitSessionStore {
 
     private final MockitoLogger logger;
-    private MockitoSession session;
+    @Nullable private MockitoSession session;
     protected Strictness strictness;
 
     JUnitSessionStore(MockitoLogger logger, Strictness strictness) {
@@ -40,7 +43,9 @@ class JUnitSessionStore {
                     closeable = MockitoAnnotations.openMocks(target);
                 }
                 Throwable testFailure = evaluateSafely(base);
-                session.finishMocking(testFailure);
+                //todo: NullAway after an initialization block
+                MockitoSession nonnullSession = NullAwayUtil.castToNonNull(session);
+                nonnullSession.finishMocking(testFailure);
                 if (closeable != null) {
                     closeable.close();
                 }
@@ -49,7 +54,7 @@ class JUnitSessionStore {
                 }
             }
 
-            private Throwable evaluateSafely(Statement base) {
+            @Nullable private Throwable evaluateSafely(Statement base) {
                 try {
                     base.evaluate();
                     return null;

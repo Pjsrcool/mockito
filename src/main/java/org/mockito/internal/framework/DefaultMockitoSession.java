@@ -15,6 +15,7 @@ import org.mockito.internal.junit.UniversalTestListener;
 import org.mockito.plugins.MockitoLogger;
 import org.mockito.quality.Strictness;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class DefaultMockitoSession implements MockitoSession {
     }
 
     @Override
-    public void finishMocking(final Throwable failure) {
+    public void finishMocking(@Nullable final Throwable failure) {
         try {
             // Cleaning up the state, we no longer need the listener hooked up
             // The listener implements MockCreationListener and at this point
@@ -76,6 +77,7 @@ public class DefaultMockitoSession implements MockitoSession {
             // Emit test finished event so that validation such as strict stubbing can take place
             listener.testFinished(
                     new TestFinishedEvent() {
+                        @Nullable
                         @Override
                         public Throwable getFailure() {
                             return failure;

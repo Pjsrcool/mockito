@@ -10,6 +10,8 @@ import org.mockito.junit.MockitoTestRule;
 import org.mockito.plugins.MockitoLogger;
 import org.mockito.quality.Strictness;
 
+import javax.annotation.Nullable;
+
 public final class JUnitTestRule implements MockitoTestRule {
 
     private final Object testInstance;
@@ -21,6 +23,7 @@ public final class JUnitTestRule implements MockitoTestRule {
     }
 
     @Override
+    @Nullable
     public Statement apply(Statement base, Description description) {
         return sessionStore.createStatement(base, description.getDisplayName(), this.testInstance);
     }
