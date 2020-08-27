@@ -4,16 +4,6 @@
  */
 package org.mockito.internal.stubbing;
 
-import static org.mockito.internal.exceptions.Reporter.notAMockPassedToWhenMethod;
-import static org.mockito.internal.exceptions.Reporter.notAnException;
-import static org.mockito.internal.exceptions.Reporter.nullPassedToWhenMethod;
-import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
-import static org.mockito.internal.stubbing.answers.DoesNothing.doesNothing;
-import static org.mockito.internal.util.MockUtil.isMock;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import org.mockito.internal.stubbing.answers.CallsRealMethods;
 import org.mockito.internal.stubbing.answers.Returns;
 import org.mockito.internal.stubbing.answers.ThrowsException;
@@ -23,11 +13,22 @@ import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Stubber;
 
+import javax.annotation.Nullable;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.mockito.internal.exceptions.Reporter.notAMockPassedToWhenMethod;
+import static org.mockito.internal.exceptions.Reporter.notAnException;
+import static org.mockito.internal.exceptions.Reporter.nullPassedToWhenMethod;
+import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
+import static org.mockito.internal.stubbing.answers.DoesNothing.doesNothing;
+import static org.mockito.internal.util.MockUtil.isMock;
+
 public class StubberImpl implements Stubber {
 
-    private final Strictness strictness;
+    @Nullable private final Strictness strictness;
 
-    public StubberImpl(Strictness strictness) {
+    public StubberImpl(@Nullable Strictness strictness) {
         this.strictness = strictness;
     }
 

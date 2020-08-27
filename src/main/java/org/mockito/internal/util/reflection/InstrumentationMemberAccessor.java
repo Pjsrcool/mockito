@@ -8,27 +8,41 @@ import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.agent.ByteBuddyAgent;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodCall;
+import org.mockito.NullAwayUtil;
 import org.mockito.exceptions.base.MockitoInitializationException;
 import org.mockito.plugins.MemberAccessor;
 
+import javax.annotation.Nullable;
 import java.lang.instrument.Instrumentation;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static org.mockito.internal.util.StringUtil.join;
 
+@SuppressWarnings("NullAway")
+// todo: NullAway: had to it for pattern 8
 class InstrumentationMemberAccessor implements MemberAccessor {
 
     private static final Map<Class<?>, Class<?>> WRAPPERS = new HashMap<>();
 
-    private static final Instrumentation INSTRUMENTATION;
+    @Nullable private static final Instrumentation INSTRUMENTATION;
+
     private static final Dispatcher DISPATCHER;
 
-    private static final Throwable INITIALIZATION_ERROR;
+    @Nullable private static final Throwable INITIALIZATION_ERROR;
 
     static {
         WRAPPERS.put(boolean.class, Boolean.class);
@@ -306,12 +320,14 @@ class InstrumentationMemberAccessor implements MemberAccessor {
 
     private static void assureArguments(
             AccessibleObject target,
-            Object owner,
-            Class<?> type,
+            @Nullable Object owner,
+            @Nullable Class<?> type,
             Object[] values,
             Class<?>[] types) {
         if (owner != null) {
-            if (!type.isAssignableFrom(owner.getClass())) {
+            // todo: NullAway: pattern 6
+            Class<?> nonnullType = NullAwayUtil.castToNonNull(type);
+            if (!nonnullType.isAssignableFrom(owner.getClass())) {
                 throw new IllegalArgumentException("Cannot access " + target + " on " + owner);
             }
         }

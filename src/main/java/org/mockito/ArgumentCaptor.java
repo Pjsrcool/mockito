@@ -4,61 +4,13 @@
  */
 package org.mockito;
 
-import static org.mockito.internal.util.Primitives.defaultValue;
-
-import java.util.List;
-
 import org.mockito.internal.matchers.CapturingMatcher;
 
-/**
- * Use it to capture argument values for further assertions.
- *
- * <p>
- * Mockito verifies argument values in natural java style: by using an equals() method.
- * This is also the recommended way of matching arguments because it makes tests clean & simple.
- * In some situations though, it is helpful to assert on certain arguments after the actual verification.
- * For example:
- * <pre class="code"><code class="java">
- *   ArgumentCaptor&lt;Person&gt; argument = ArgumentCaptor.forClass(Person.class);
- *   verify(mock).doSomething(argument.capture());
- *   assertEquals("John", argument.getValue().getName());
- * </code></pre>
- *
- * Example of capturing varargs:
- * <pre class="code"><code class="java">
- *   //capturing varargs:
- *   ArgumentCaptor&lt;Person&gt; varArgs = ArgumentCaptor.forClass(Person.class);
- *   verify(mock).varArgMethod(varArgs.capture());
- *   List expected = asList(new Person("John"), new Person("Jane"));
- *   assertEquals(expected, varArgs.getAllValues());
- * </code></pre>
- *
- * <p>
- * <strong>Warning:</strong> it is recommended to use ArgumentCaptor with verification <strong>but not</strong> with stubbing.
- * Using ArgumentCaptor with stubbing may decrease test readability because captor is created outside of assert (aka verify or 'then') block.
- * Also it may reduce defect localization because if stubbed method was not called then no argument is captured.
- *
- * <p>
- * In a way ArgumentCaptor is related to custom argument matchers (see javadoc for {@link ArgumentMatcher} class).
- * Both techniques can be used for making sure certain arguments were passed to mocks.
- * However, ArgumentCaptor may be a better fit if:
- * <ul>
- * <li>custom argument matcher is not likely to be reused</li>
- * <li>you just need it to assert on argument values to complete verification</li>
- * </ul>
- * Custom argument matchers via {@link ArgumentMatcher} are usually better for stubbing.
- *
- * <p>
- * This utility class <strong>*doesn't do any type checks*</strong>. The generic signatures are only there to avoid casting
- * in your code.
- * <p>
- * There is an <strong>annotation</strong> that you might find useful: &#64;{@link Captor}
- * <p>
- * See the full documentation on Mockito in javadoc for {@link Mockito} class.
- *
- * @see Captor
- * @since 1.8.0
- */
+import javax.annotation.Nullable;
+import java.util.List;
+
+import static org.mockito.internal.util.Primitives.defaultValue;
+
 public class ArgumentCaptor<T> {
 
     private final CapturingMatcher<T> capturingMatcher = new CapturingMatcher<T>();
@@ -78,6 +30,7 @@ public class ArgumentCaptor<T> {
      *
      * @return null or default values
      */
+    @Nullable
     public T capture() {
         Mockito.argThat(capturingMatcher);
         return defaultValue(clazz);

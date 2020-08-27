@@ -4,15 +4,16 @@
  */
 package org.mockito.internal.invocation;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.mockito.internal.util.collections.ListUtil;
 import org.mockito.internal.util.collections.ListUtil.Filter;
 import org.mockito.internal.verification.api.InOrderContext;
 import org.mockito.invocation.Invocation;
 import org.mockito.invocation.Location;
 import org.mockito.invocation.MatchableInvocation;
+
+import javax.annotation.Nullable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class InvocationsFinder {
 
@@ -74,6 +75,7 @@ public class InvocationsFinder {
         return firstChunk;
     }
 
+    @Nullable
     public static Invocation findFirstMatchingUnverifiedInvocation(
             List<Invocation> invocations, MatchableInvocation wanted, InOrderContext context) {
         for (Invocation invocation : removeVerifiedInOrder(invocations, context)) {
@@ -84,6 +86,7 @@ public class InvocationsFinder {
         return null;
     }
 
+    @Nullable
     public static Invocation findSimilarInvocation(
             List<Invocation> invocations, MatchableInvocation wanted) {
         Invocation firstSimilar = null;
@@ -102,11 +105,13 @@ public class InvocationsFinder {
         return firstSimilar;
     }
 
+    @Nullable
     public static Invocation findFirstUnverified(List<Invocation> invocations) {
         return findFirstUnverified(invocations, null);
     }
 
-    static Invocation findFirstUnverified(List<Invocation> invocations, Object mock) {
+    @Nullable
+    static Invocation findFirstUnverified(List<Invocation> invocations, @Nullable Object mock) {
         for (Invocation i : invocations) {
             boolean mockIsValid = mock == null || mock == i.getMock();
             if (!i.isVerified() && mockIsValid) {
@@ -116,6 +121,7 @@ public class InvocationsFinder {
         return null;
     }
 
+    @Nullable
     public static Location getLastLocation(List<Invocation> invocations) {
         if (invocations.isEmpty()) {
             return null;
@@ -125,6 +131,7 @@ public class InvocationsFinder {
         }
     }
 
+    @Nullable
     public static Invocation findPreviousVerifiedInOrder(
             List<Invocation> invocations, InOrderContext context) {
         LinkedList<Invocation> verifiedOnly =
@@ -196,6 +203,7 @@ public class InvocationsFinder {
      * @param context
      * @param orderedInvocations
      */
+    @Nullable
     public static Invocation findFirstUnverifiedInOrder(
             InOrderContext context, List<Invocation> orderedInvocations) {
         Invocation candidate = null;

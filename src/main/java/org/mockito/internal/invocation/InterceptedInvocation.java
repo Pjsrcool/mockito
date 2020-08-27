@@ -4,13 +4,6 @@
  */
 package org.mockito.internal.invocation;
 
-import static org.mockito.internal.exceptions.Reporter.cannotCallAbstractRealMethod;
-import static org.mockito.internal.invocation.ArgumentsProcessor.argumentsToMatchers;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
-
 import org.mockito.ArgumentMatcher;
 import org.mockito.internal.exceptions.VerificationAwareInvocation;
 import org.mockito.internal.invocation.mockref.MockReference;
@@ -18,6 +11,14 @@ import org.mockito.internal.reporting.PrintSettings;
 import org.mockito.invocation.Invocation;
 import org.mockito.invocation.Location;
 import org.mockito.invocation.StubInfo;
+
+import javax.annotation.Nullable;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.internal.exceptions.Reporter.cannotCallAbstractRealMethod;
+import static org.mockito.internal.invocation.ArgumentsProcessor.argumentsToMatchers;
 
 public class InterceptedInvocation implements Invocation, VerificationAwareInvocation {
 
@@ -34,7 +35,8 @@ public class InterceptedInvocation implements Invocation, VerificationAwareInvoc
 
     private boolean verified;
     private boolean isIgnoredForVerification;
-    private StubInfo stubInfo;
+
+    @Nullable private StubInfo stubInfo;
 
     public InterceptedInvocation(
             MockReference<Object> mockRef,
@@ -83,6 +85,7 @@ public class InterceptedInvocation implements Invocation, VerificationAwareInvoc
     }
 
     @Override
+    @Nullable
     public StubInfo stubInfo() {
         return stubInfo;
     }
@@ -197,6 +200,7 @@ public class InterceptedInvocation implements Invocation, VerificationAwareInvoc
                     return false;
                 }
 
+                @Nullable
                 public Object invoke() throws Throwable {
                     return null;
                 }

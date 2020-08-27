@@ -4,22 +4,6 @@
  */
 package org.mockito.internal.creation.bytebuddy;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.instrument.Instrumentation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.JarOutputStream;
-
 import net.bytebuddy.agent.ByteBuddyAgent;
 import org.mockito.Incubating;
 import org.mockito.MockedConstruction;
@@ -38,9 +22,31 @@ import org.mockito.plugins.InlineMockMaker;
 import org.mockito.plugins.MemberAccessor;
 
 import javax.annotation.Nullable;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.instrument.Instrumentation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.JarOutputStream;
 
-import static org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.*;
-import static org.mockito.internal.util.StringUtil.*;
+import static org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.EXCLUDES;
+import static org.mockito.internal.util.StringUtil.join;
 
 /**
  * Agent and subclass based mock maker.
@@ -204,7 +210,8 @@ public class InlineByteBuddyMockMaker
 
     private final ThreadLocal<Object> currentSpied = new ThreadLocal<>();
 
-    @Nullable public InlineByteBuddyMockMaker() {
+    @Nullable
+    public InlineByteBuddyMockMaker() {
         if (INITIALIZATION_ERROR != null) {
             String detail;
             if (System.getProperty("java.specification.vendor", "")
@@ -314,7 +321,8 @@ public class InlineByteBuddyMockMaker
         }
     }
 
-    @Nullable private <T> T doCreateMock(
+    @Nullable
+    private <T> T doCreateMock(
             MockCreationSettings<T> settings,
             MockHandler handler,
             boolean nullOnNonInlineConstruction) {
@@ -476,7 +484,7 @@ public class InlineByteBuddyMockMaker
     @Override
     public TypeMockability isTypeMockable(final Class<?> type) {
         return new TypeMockability() {
-            @SuppressWarnings("NullAway") //todo: [NullAway] real error
+            @SuppressWarnings("NullAway") // todo: [NullAway] real error
             @Override
             public boolean mockable() {
                 return INSTRUMENTATION.isModifiableClass(type) && !EXCLUDES.contains(type);
@@ -588,7 +596,8 @@ public class InlineByteBuddyMockMaker
         }
     }
 
-    @Nullable private Object makeStandardArgument(Class<?> type) {
+    @Nullable
+    private Object makeStandardArgument(Class<?> type) {
         if (type == boolean.class) {
             return false;
         } else if (type == byte.class) {

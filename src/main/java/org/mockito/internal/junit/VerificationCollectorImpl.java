@@ -4,8 +4,6 @@
  */
 package org.mockito.internal.junit;
 
-import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
-
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.mockito.exceptions.base.MockitoAssertionError;
@@ -15,7 +13,8 @@ import org.mockito.junit.VerificationCollector;
 import org.mockito.verification.VerificationMode;
 import org.mockito.verification.VerificationStrategy;
 
-import javax.annotation.Nullable;
+import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
+
 
 /**
  * Mockito implementation of VerificationCollector.
@@ -101,7 +100,7 @@ public class VerificationCollectorImpl implements VerificationCollector {
             try {
                 this.delegate.verify(data);
             } catch (AssertionError error) {
-                //todo: NullAway: no sure why here is Nullable
+                // todo: NullAway: no sure why here is Nullable
                 VerificationCollectorImpl.this.append(error.getMessage());
             }
         }

@@ -8,5 +8,6 @@ import javax.annotation.Nullable;
 
 public interface ConstructionCallback {
 
-    @Nullable Object apply(Class<?> type, Object object, Object[] arguments, String[] parameterTypeNames);
+    @Nullable
+    Object apply(Class<?> type, Object object, Object[] arguments, String[] parameterTypeNames);
 }

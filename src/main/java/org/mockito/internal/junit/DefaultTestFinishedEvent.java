@@ -14,7 +14,9 @@ public class DefaultTestFinishedEvent implements TestFinishedEvent {
     @Nullable private final Throwable testFailure;
 
     public DefaultTestFinishedEvent(
-            @Nullable Object testClassInstance, String testMethodName, @Nullable Throwable testFailure) {
+            @Nullable Object testClassInstance,
+            String testMethodName,
+            @Nullable Throwable testFailure) {
         this.testClassInstance = testClassInstance;
         this.testMethodName = testMethodName;
         this.testFailure = testFailure;
@@ -28,7 +30,6 @@ public class DefaultTestFinishedEvent implements TestFinishedEvent {
 
     @Override
     public String getTestName() {
-        //todo: NullAway: real bug
         Object nonnullTestClassInstance = NullAwayUtil.castToNonNull(testClassInstance);
         return nonnullTestClassInstance.getClass().getSimpleName() + "." + testMethodName;
     }

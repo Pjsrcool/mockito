@@ -4,19 +4,24 @@
  */
 package org.mockito.internal.exceptions;
 
-import static org.mockito.internal.reporting.Pluralizer.pluralize;
-import static org.mockito.internal.reporting.Pluralizer.were_exactly_x_interactions;
-import static org.mockito.internal.util.StringUtil.join;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import org.mockito.NullAwayUtil;
 import org.mockito.exceptions.base.MockitoAssertionError;
 import org.mockito.exceptions.base.MockitoException;
-import org.mockito.exceptions.misusing.*;
+import org.mockito.exceptions.misusing.CannotStubVoidMethodWithReturnValue;
+import org.mockito.exceptions.misusing.CannotVerifyStubOnlyMock;
+import org.mockito.exceptions.misusing.FriendlyReminderException;
+import org.mockito.exceptions.misusing.InjectMocksException;
+import org.mockito.exceptions.misusing.InvalidUseOfMatchersException;
+import org.mockito.exceptions.misusing.MissingMethodInvocationException;
+import org.mockito.exceptions.misusing.NotAMockException;
+import org.mockito.exceptions.misusing.NullInsteadOfMockException;
+import org.mockito.exceptions.misusing.PotentialStubbingProblem;
+import org.mockito.exceptions.misusing.RedundantListenerException;
+import org.mockito.exceptions.misusing.UnfinishedMockingSessionException;
+import org.mockito.exceptions.misusing.UnfinishedStubbingException;
+import org.mockito.exceptions.misusing.UnfinishedVerificationException;
+import org.mockito.exceptions.misusing.UnnecessaryStubbingException;
+import org.mockito.exceptions.misusing.WrongTypeOfReturnValue;
 import org.mockito.exceptions.verification.MoreThanAllowedActualInvocations;
 import org.mockito.exceptions.verification.NeverWantedButInvoked;
 import org.mockito.exceptions.verification.NoInteractionsWanted;
@@ -37,17 +42,17 @@ import org.mockito.invocation.Location;
 import org.mockito.listeners.InvocationListener;
 import org.mockito.mock.SerializableMode;
 
-/**
- * Reports verification and misusing errors.
- * <p>
- * One of the key points of mocking library is proper verification/exception
- * messages. All messages in one place makes it easier to tune and amend them.
- * <p>
- * Reporter can be injected and therefore is easily testable.
- * <p>
- * Generally, exception messages are full of line breaks to make them easy to
- * read (xunit plugins take only fraction of screen on modern IDEs).
- */
+import javax.annotation.Nullable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static org.mockito.internal.reporting.Pluralizer.pluralize;
+import static org.mockito.internal.reporting.Pluralizer.were_exactly_x_interactions;
+import static org.mockito.internal.util.StringUtil.join;
+
 public class Reporter {
 
     private static final String NON_PUBLIC_PARENT =
@@ -474,18 +479,19 @@ public class Reporter {
     }
 
     public static MockitoAssertionError noMoreInteractionsWanted(
-            Invocation undesired, List<VerificationAwareInvocation> invocations) {
+            @Nullable Invocation undesired, List<VerificationAwareInvocation> invocations) {
         ScenarioPrinter scenarioPrinter = new ScenarioPrinter();
         String scenario = scenarioPrinter.print(invocations);
-
+        Invocation nonnullInvocation = NullAwayUtil.castToNonNull(undesired);
+        // todo: NullAway: real bug
         return new NoInteractionsWanted(
                 join(
                         "No interactions wanted here:",
                         new LocationImpl(),
                         "But found this interaction on mock '"
-                                + MockUtil.getMockName(undesired.getMock())
+                                + MockUtil.getMockName(nonnullInvocation.getMock())
                                 + "':",
-                        undesired.getLocation(),
+                        nonnullInvocation.getLocation(),
                         scenario));
     }
 
@@ -746,7 +752,7 @@ public class Reporter {
     }
 
     public static MockitoException cannotInitializeForInjectMocksAnnotation(
-            String fieldName, String causeMessage) {
+            String fieldName, @Nullable String causeMessage) {
         return new MockitoException(
                 join(
                         "Cannot instantiate @InjectMocks field named '"
@@ -826,6 +832,7 @@ public class Reporter {
                 details);
     }
 
+    @Nullable
     private static String exceptionCauseMessageIfAvailable(Exception details) {
         if (details.getCause() == null) {
             return details.getMessage();
@@ -1019,7 +1026,7 @@ public class Reporter {
     }
 
     public static UnnecessaryStubbingException formatUnncessaryStubbingException(
-            Class<?> testClass, Collection<Invocation> unnecessaryStubbings) {
+            @Nullable Class<?> testClass, Collection<Invocation> unnecessaryStubbings) {
         StringBuilder stubbings = new StringBuilder();
         int count = 1;
         for (Invocation u : unnecessaryStubbings) {

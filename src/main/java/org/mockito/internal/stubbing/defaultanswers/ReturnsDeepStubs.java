@@ -4,13 +4,9 @@
  */
 package org.mockito.internal.stubbing.defaultanswers;
 
-import static org.mockito.Mockito.withSettings;
-
-import java.io.IOException;
-import java.io.Serializable;
-
 import org.mockito.MockSettings;
 import org.mockito.Mockito;
+import org.mockito.NullAwayUtil;
 import org.mockito.internal.MockitoCore;
 import org.mockito.internal.creation.settings.CreationSettings;
 import org.mockito.internal.stubbing.InvocationContainerImpl;
@@ -18,11 +14,16 @@ import org.mockito.internal.stubbing.StubbedInvocationMatcher;
 import org.mockito.internal.util.MockUtil;
 import org.mockito.internal.util.reflection.GenericMetadataSupport;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.invocation.MatchableInvocation;
 import org.mockito.mock.MockCreationSettings;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Stubbing;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
+import java.io.Serializable;
+
+import static org.mockito.Mockito.withSettings;
 
 /**
  * Returning deep stub implementation.
@@ -48,7 +49,8 @@ public class ReturnsDeepStubs implements Answer<Object>, Serializable {
 
     private static final long serialVersionUID = -7105341425736035847L;
 
-    @Nullable public Object answer(InvocationOnMock invocation) throws Throwable {
+    @Nullable
+    public Object answer(InvocationOnMock invocation) throws Throwable {
         GenericMetadataSupport returnTypeGenericMetadata =
                 actualParameterizedType(invocation.getMock())
                         .resolveGenericReturnType(invocation.getMethod());
@@ -84,7 +86,10 @@ public class ReturnsDeepStubs implements Answer<Object>, Serializable {
         // matches invocation for verification
         // TODO why don't we do container.findAnswer here?
         for (Stubbing stubbing : container.getStubbingsDescending()) {
-            if (container.getInvocationForStubbing().matches(stubbing.getInvocation())) {
+            // todo: NullAway: real bug
+            MatchableInvocation nonnullMatchableInvocation =
+                    NullAwayUtil.castToNonNull(container.getInvocationForStubbing());
+            if (nonnullMatchableInvocation.matches(stubbing.getInvocation())) {
                 return stubbing.answer(invocation);
             }
         }

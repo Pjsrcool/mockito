@@ -4,15 +4,6 @@
  */
 package org.mockito.internal.configuration;
 
-import static org.mockito.internal.exceptions.Reporter.moreThanOneAnnotationNotAllowed;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -21,6 +12,16 @@ import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.configuration.plugins.Plugins;
 import org.mockito.plugins.AnnotationEngine;
 import org.mockito.plugins.MemberAccessor;
+
+import javax.annotation.Nullable;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.mockito.internal.exceptions.Reporter.moreThanOneAnnotationNotAllowed;
 
 /**
  * Initializes fields annotated with &#64;{@link org.mockito.Mock} or &#64;{@link org.mockito.Captor}.
@@ -52,6 +53,7 @@ public class IndependentAnnotationEngine
                     annotationProcessorMap.get(annotation.annotationType());
         }
         return new FieldAnnotationProcessor<A>() {
+            @Nullable
             public Object process(A annotation, Field field) {
                 return null;
             }

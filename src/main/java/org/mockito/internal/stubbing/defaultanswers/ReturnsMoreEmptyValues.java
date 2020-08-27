@@ -4,14 +4,13 @@
  */
 package org.mockito.internal.stubbing.defaultanswers;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
-
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
+import java.lang.reflect.Array;
 
 /**
  * It's likely this implementation will be used by default by every Mockito 4.0.0 mock.
@@ -54,8 +53,9 @@ public class ReturnsMoreEmptyValues implements Answer<Object>, Serializable {
     /* (non-Javadoc)
      * @see org.mockito.stubbing.Answer#answer(org.mockito.invocation.InvocationOnMock)
      */
-    @SuppressWarnings("NullAway") //todo: NullAway avoid superclass errors
-    @Nullable public Object answer(InvocationOnMock invocation) throws Throwable {
+    @SuppressWarnings("NullAway") // todo: NullAway avoid superclass errors
+    @Nullable
+    public Object answer(InvocationOnMock invocation) throws Throwable {
         Object ret = delegate.answer(invocation);
         if (ret != null) {
             return ret;
@@ -65,7 +65,8 @@ public class ReturnsMoreEmptyValues implements Answer<Object>, Serializable {
         return returnValueFor(returnType);
     }
 
-    @Nullable Object returnValueFor(Class<?> type) {
+    @Nullable
+    Object returnValueFor(Class<?> type) {
         if (type == String.class) {
             return "";
         } else if (type.isArray()) {

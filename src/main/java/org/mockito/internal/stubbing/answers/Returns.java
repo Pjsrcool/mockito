@@ -4,17 +4,16 @@
  */
 package org.mockito.internal.stubbing.answers;
 
-import static org.mockito.NullAwayUtil.castToNonNull;
-import static org.mockito.internal.exceptions.Reporter.cannotStubVoidMethodWithAReturnValue;
-import static org.mockito.internal.exceptions.Reporter.wrongTypeOfReturnValue;
-
-import java.io.Serializable;
-
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.ValidableAnswer;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
+
+import static org.mockito.NullAwayUtil.castToNonNull;
+import static org.mockito.internal.exceptions.Reporter.cannotStubVoidMethodWithAReturnValue;
+import static org.mockito.internal.exceptions.Reporter.wrongTypeOfReturnValue;
 
 public class Returns implements Answer<Object>, ValidableAnswer, Serializable {
 
@@ -54,7 +53,6 @@ public class Returns implements Answer<Object>, ValidableAnswer, Serializable {
         Object v = castToNonNull(value);
         return v.getClass().getSimpleName();
     }
-
 
     private Class<?> returnType() {
         Object v = castToNonNull(value);

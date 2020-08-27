@@ -4,9 +4,6 @@
  */
 package org.mockito.internal.handler;
 
-import static org.mockito.internal.listeners.StubbingLookupNotifier.notifyStubbedAnswerLookup;
-import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
-
 import org.mockito.internal.creation.settings.CreationSettings;
 import org.mockito.internal.invocation.InvocationMatcher;
 import org.mockito.internal.invocation.MatchersBinder;
@@ -22,11 +19,11 @@ import org.mockito.invocation.MockHandler;
 import org.mockito.mock.MockCreationSettings;
 import org.mockito.verification.VerificationMode;
 
-/**
- * Invocation handler set on mock objects.
- *
- * @param <T> type of mock object to handle
- */
+import javax.annotation.Nullable;
+
+import static org.mockito.internal.listeners.StubbingLookupNotifier.notifyStubbedAnswerLookup;
+import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
+
 public class MockHandlerImpl<T> implements MockHandler<T> {
 
     private static final long serialVersionUID = -2917871070982574165L;
@@ -44,6 +41,7 @@ public class MockHandlerImpl<T> implements MockHandler<T> {
         this.invocationContainer = new InvocationContainerImpl(mockSettings);
     }
 
+    @Nullable
     public Object handle(Invocation invocation) throws Throwable {
         if (invocationContainer.hasAnswersForStubbing()) {
             // stubbing voids with doThrow() or doAnswer() style

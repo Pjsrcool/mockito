@@ -4,18 +4,6 @@
  */
 package org.mockito.internal.creation.bytebuddy;
 
-import java.lang.instrument.ClassFileTransformer;
-import java.lang.instrument.Instrumentation;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.security.ProtectionDomain;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
-
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.ClassFileVersion;
 import net.bytebuddy.asm.Advice;
@@ -45,11 +33,37 @@ import org.mockito.internal.util.concurrent.WeakConcurrentSet;
 import org.mockito.mock.SerializableMode;
 
 import javax.annotation.Nullable;
+import java.lang.instrument.ClassFileTransformer;
+import java.lang.instrument.Instrumentation;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.security.ProtectionDomain;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 
-import static net.bytebuddy.implementation.MethodDelegation.*;
-import static net.bytebuddy.implementation.bind.annotation.TargetMethodAnnotationDrivenBinder.ParameterBinder.ForFixedValue.OfConstant.*;
-import static net.bytebuddy.matcher.ElementMatchers.*;
-import static org.mockito.internal.util.StringUtil.*;
+import static net.bytebuddy.implementation.MethodDelegation.withDefaultConfiguration;
+import static net.bytebuddy.implementation.bind.annotation.TargetMethodAnnotationDrivenBinder.ParameterBinder.ForFixedValue.OfConstant.of;
+import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.hasDescriptor;
+import static net.bytebuddy.matcher.ElementMatchers.isAbstract;
+import static net.bytebuddy.matcher.ElementMatchers.isBridge;
+import static net.bytebuddy.matcher.ElementMatchers.isConstructor;
+import static net.bytebuddy.matcher.ElementMatchers.isDeclaredBy;
+import static net.bytebuddy.matcher.ElementMatchers.isDefaultFinalizer;
+import static net.bytebuddy.matcher.ElementMatchers.isEquals;
+import static net.bytebuddy.matcher.ElementMatchers.isHashCode;
+import static net.bytebuddy.matcher.ElementMatchers.isNative;
+import static net.bytebuddy.matcher.ElementMatchers.isPackagePrivate;
+import static net.bytebuddy.matcher.ElementMatchers.isStatic;
+import static net.bytebuddy.matcher.ElementMatchers.isToString;
+import static net.bytebuddy.matcher.ElementMatchers.isVirtual;
+import static net.bytebuddy.matcher.ElementMatchers.nameStartsWith;
+import static net.bytebuddy.matcher.ElementMatchers.not;
+import static org.mockito.internal.util.StringUtil.join;
 
 public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTransformer {
 
@@ -165,7 +179,7 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
                 new MockMethodAdvice(
                         mocks, mockedStatics, identifier, isMockConstruction, onConstruction));
         Instrumentation nonnullInstrumentation = NullAwayUtil.castToNonNull(instrumentation);
-        //todo: NullAway: real bug
+        // todo: NullAway: real bug
         nonnullInstrumentation.addTransformer(this, true);
     }
 
@@ -250,9 +264,11 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
         if (!targets.isEmpty()) {
             try {
                 assureCanReadMockito(targets);
-                Instrumentation nonnullInstrumentation = NullAwayUtil.castToNonNull(instrumentation);
-                //todo: NullAway: real bug
-                nonnullInstrumentation.retransformClasses(targets.toArray(new Class<?>[targets.size()]));
+                Instrumentation nonnullInstrumentation =
+                        NullAwayUtil.castToNonNull(instrumentation);
+                // todo: NullAway: real bug
+                nonnullInstrumentation.retransformClasses(
+                        targets.toArray(new Class<?>[targets.size()]));
                 Throwable throwable = lastException;
                 if (throwable != null) {
                     throw new IllegalStateException(
@@ -282,17 +298,17 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
         }
         Set<Object> modules = new HashSet<Object>();
         try {
-            //todo: NullAway: real bug
+            // todo: NullAway: real bug
             Method nonnullGetModule = NullAwayUtil.castToNonNull(getModule);
             Object target =
-                nonnullGetModule.invoke(
+                    nonnullGetModule.invoke(
                             Class.forName(
                                     "org.mockito.internal.creation.bytebuddy.inject.MockMethodDispatcher",
                                     false,
                                     null));
             for (Class<?> type : types) {
                 Object module = nonnullGetModule.invoke(type);
-                //todo: NullAway: real bug
+                // todo: NullAway: real bug
                 Method nonnullCanRaed = NullAwayUtil.castToNonNull(canRead);
                 if (!modules.contains(module) && !(Boolean) nonnullCanRaed.invoke(module, target)) {
                     modules.add(module);

@@ -4,14 +4,13 @@
  */
 package org.mockito.internal.stubbing.defaultanswers;
 
-import java.io.Serializable;
-
 import org.mockito.Mockito;
 import org.mockito.internal.creation.MockSettingsImpl;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
 
 public class ReturnsMocks implements Answer<Object>, Serializable {
 
@@ -20,7 +19,7 @@ public class ReturnsMocks implements Answer<Object>, Serializable {
 
     @Override
     @Nullable
-    @SuppressWarnings("NullAway") //todo: NullAway to avoid superclass errors
+    @SuppressWarnings("NullAway") // todo: NullAway to avoid superclass errors
     public Object answer(final InvocationOnMock invocation) throws Throwable {
         Object defaultReturnValue = delegate.answer(invocation);
 
@@ -33,7 +32,8 @@ public class ReturnsMocks implements Answer<Object>, Serializable {
                 new RetrieveGenericsForDefaultAnswers.AnswerCallback() {
                     @Nullable
                     @Override
-                    @SuppressWarnings("NullAway") //todo: NullAway - added to avoid superclass errors
+                    @SuppressWarnings(
+                            "NullAway") // todo: NullAway - added to avoid superclass errors
                     public Object apply(Class<?> type) {
                         if (type == null) {
                             return null;

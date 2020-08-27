@@ -4,14 +4,13 @@
  */
 package org.mockito.internal.junit.util;
 
-import java.lang.reflect.Field;
-
 import org.junit.runner.notification.Failure;
 import org.mockito.internal.configuration.plugins.Plugins;
 import org.mockito.internal.exceptions.ExceptionIncludingMockitoWarnings;
 import org.mockito.plugins.MemberAccessor;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.Field;
 
 @Deprecated
 public class JUnitFailureHacker {
@@ -82,7 +81,8 @@ public class JUnitFailureHacker {
         return f;
     }
 
-    @Nullable private static Field getField(Class<?> clazz, String field) {
+    @Nullable
+    private static Field getField(Class<?> clazz, String field) {
         try {
             return clazz.getDeclaredField(field);
         } catch (NoSuchFieldException e) {

@@ -4,9 +4,8 @@
  */
 package org.mockito.internal.util.reflection;
 
-/**
- * Report on field initialization
- */
+import javax.annotation.Nullable;
+
 public class FieldInitializationReport {
     private final Object fieldInstance;
     private final boolean wasInitialized;
@@ -53,6 +52,7 @@ public class FieldInitializationReport {
      *
      * @return Class of the instance
      */
+    @Nullable
     public Class<?> fieldClass() {
         return fieldInstance != null ? fieldInstance.getClass() : null;
     }

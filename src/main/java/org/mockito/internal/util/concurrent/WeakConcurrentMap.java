@@ -4,6 +4,7 @@
  */
 package org.mockito.internal.util.concurrent;
 
+import javax.annotation.Nullable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
@@ -14,14 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * <p>
- * A thread-safe map with weak keys. Entries are based on a key's system hash code and keys are considered
- * equal only by reference equality.
- * </p>
- * This class does not implement the {@link java.util.Map} interface because this implementation is incompatible
- * with the map contract. While iterating over a map's entries, any key that has not passed iteration is referenced non-weakly.
- */
 public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
         implements Runnable, Iterable<Map.Entry<K, V>> {
 
@@ -29,7 +22,7 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
 
     public final ConcurrentMap<WeakKey<K>, V> target;
 
-    private final Thread thread;
+    @Nullable private final Thread thread;
 
     /**
      * @param cleanerThread {@code true} if a thread should be started that removes stale entries.
@@ -52,6 +45,7 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
      * @return The value of the entry or the default value if it did not exist.
      */
     @SuppressWarnings("CollectionIncompatibleType")
+    @Nullable
     public V get(K key) {
         if (key == null) throw new NullPointerException();
         V value = target.get(new LatentKey<K>(key));
@@ -111,6 +105,7 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
      * @param key The key for which to create a default value.
      * @return The default value for a key without value or {@code null} for not defining a default value.
      */
+    @Nullable
     protected V defaultValue(K key) {
         return null;
     }
@@ -118,6 +113,7 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
     /**
      * @return The cleaner thread or {@code null} if no such thread was set.
      */
+    @Nullable
     public Thread getCleanerThread() {
         return thread;
     }
@@ -254,6 +250,7 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
         }
 
         @Override
+        @Nullable
         public V get(K key) {
             expungeStaleEntries();
             return super.get(key);
@@ -290,6 +287,7 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
         }
     }
 
+    @SuppressWarnings("NullAway")
     private class EntryIterator implements Iterator<Map.Entry<K, V>> {
 
         private final Iterator<Map.Entry<WeakKey<K>, V>> iterator;

@@ -4,9 +4,6 @@
  */
 package org.mockito.internal.listeners;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.mockito.internal.creation.settings.CreationSettings;
 import org.mockito.invocation.Invocation;
 import org.mockito.listeners.StubbingLookupEvent;
@@ -14,11 +11,15 @@ import org.mockito.listeners.StubbingLookupListener;
 import org.mockito.mock.MockCreationSettings;
 import org.mockito.stubbing.Stubbing;
 
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.List;
+
 public class StubbingLookupNotifier {
 
     public static void notifyStubbedAnswerLookup(
             Invocation invocation,
-            Stubbing stubbingFound,
+            @Nullable Stubbing stubbingFound,
             Collection<Stubbing> allStubbings,
             CreationSettings creationSettings) {
         List<StubbingLookupListener> listeners = creationSettings.getStubbingLookupListeners();
@@ -34,13 +35,14 @@ public class StubbingLookupNotifier {
 
     static class Event implements StubbingLookupEvent {
         private final Invocation invocation;
-        private final Stubbing stubbing;
+
+        @Nullable private final Stubbing stubbing;
         private final Collection<Stubbing> allStubbings;
         private final MockCreationSettings mockSettings;
 
         public Event(
                 Invocation invocation,
-                Stubbing stubbing,
+                @Nullable Stubbing stubbing,
                 Collection<Stubbing> allStubbings,
                 MockCreationSettings mockSettings) {
             this.invocation = invocation;
@@ -55,6 +57,7 @@ public class StubbingLookupNotifier {
         }
 
         @Override
+        @Nullable
         public Stubbing getStubbingFound() {
             return stubbing;
         }

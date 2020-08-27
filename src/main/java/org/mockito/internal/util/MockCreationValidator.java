@@ -4,16 +4,17 @@
  */
 package org.mockito.internal.util;
 
+import org.mockito.mock.SerializableMode;
+import org.mockito.plugins.MockMaker.TypeMockability;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+
 import static org.mockito.internal.exceptions.Reporter.cannotMockClass;
 import static org.mockito.internal.exceptions.Reporter.extraInterfacesCannotContainMockedType;
 import static org.mockito.internal.exceptions.Reporter.mockedTypeIsInconsistentWithDelegatedInstanceType;
 import static org.mockito.internal.exceptions.Reporter.mockedTypeIsInconsistentWithSpiedInstanceType;
 import static org.mockito.internal.exceptions.Reporter.usingConstructorWithFancySerializable;
-
-import java.util.Collection;
-
-import org.mockito.mock.SerializableMode;
-import org.mockito.plugins.MockMaker.TypeMockability;
 
 @SuppressWarnings("unchecked")
 public class MockCreationValidator {
@@ -38,7 +39,7 @@ public class MockCreationValidator {
         }
     }
 
-    public void validateMockedType(Class<?> classToMock, Object spiedInstance) {
+    public void validateMockedType(Class<?> classToMock, @Nullable Object spiedInstance) {
         if (classToMock == null || spiedInstance == null) {
             return;
         }

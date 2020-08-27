@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.configuration.injection.filter;
 
+import javax.annotation.Nullable;
+
 /**
  * Allow the ongoing injection of a mock candidate.
  */
@@ -25,6 +27,7 @@ public interface OngoingInjector {
      */
     OngoingInjector nop =
             new OngoingInjector() {
+                @Nullable
                 public Object thenInject() {
                     return null;
                 }

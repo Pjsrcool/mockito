@@ -4,13 +4,8 @@
  */
 package org.mockito.internal.util.concurrent;
 
-/**
- * <p>
- * A detached local that allows for explicit control of setting and removing values from a thread-local
- * context.
- * </p>
- * Instances of this class are non-blocking and fully thread safe.
- */
+import javax.annotation.Nullable;
+
 public class DetachedThreadLocal<T> implements Runnable {
 
     final WeakConcurrentMap<Thread, T> map;
@@ -22,6 +17,7 @@ public class DetachedThreadLocal<T> implements Runnable {
                 map =
                         new WeakConcurrentMap<Thread, T>(cleaner == Cleaner.THREAD) {
                             @Override
+                            @Nullable
                             protected T defaultValue(Thread key) {
                                 return DetachedThreadLocal.this.initialValue(key);
                             }
@@ -30,6 +26,7 @@ public class DetachedThreadLocal<T> implements Runnable {
             case INLINE:
                 map =
                         new WeakConcurrentMap.WithInlinedExpunction<Thread, T>() {
+                            @Nullable
                             @Override
                             protected T defaultValue(Thread key) {
                                 return DetachedThreadLocal.this.initialValue(key);
@@ -41,6 +38,7 @@ public class DetachedThreadLocal<T> implements Runnable {
         }
     }
 
+    @Nullable
     public T get() {
         return map.get(Thread.currentThread());
     }
@@ -64,6 +62,7 @@ public class DetachedThreadLocal<T> implements Runnable {
      * @param thread The thread to which this thread's thread local value should be pushed.
      * @return The value being set.
      */
+    @Nullable
     public T pushTo(Thread thread) {
         T value = get();
         if (value != null) {
@@ -76,6 +75,7 @@ public class DetachedThreadLocal<T> implements Runnable {
      * @param thread The thread from which the thread thread local value should be fetched.
      * @return The value being set.
      */
+    @Nullable
     public T fetchFrom(Thread thread) {
         T value = map.get(thread);
         if (value != null) {
@@ -88,6 +88,7 @@ public class DetachedThreadLocal<T> implements Runnable {
      * @param thread The thread for which to set a thread-local value.
      * @return The value associated with this thread.
      */
+    @Nullable
     public T get(Thread thread) {
         return map.get(thread);
     }
@@ -104,6 +105,7 @@ public class DetachedThreadLocal<T> implements Runnable {
      * @param thread The thread for which an initial value is created.
      * @return The initial value for any thread local. If no default is set, the default value is {@code null}.
      */
+    @Nullable
     protected T initialValue(Thread thread) {
         return null;
     }

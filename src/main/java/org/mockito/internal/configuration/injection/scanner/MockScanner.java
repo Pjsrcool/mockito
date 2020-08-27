@@ -4,19 +4,17 @@
  */
 package org.mockito.internal.configuration.injection.scanner;
 
-import static org.mockito.internal.util.collections.Sets.newMockSafeHashSet;
-
-import java.lang.reflect.Field;
-import java.util.Set;
-
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.internal.util.MockUtil;
 import org.mockito.internal.util.reflection.FieldReader;
 
-/**
- * Scan mocks, and prepare them if needed.
- */
+import javax.annotation.Nullable;
+import java.lang.reflect.Field;
+import java.util.Set;
+
+import static org.mockito.internal.util.collections.Sets.newMockSafeHashSet;
+
 public class MockScanner {
     private final Object instance;
     private final Class<?> clazz;
@@ -64,6 +62,7 @@ public class MockScanner {
         return mocks;
     }
 
+    @Nullable
     private Object preparedMock(Object instance, Field field) {
         if (isAnnotatedByMockOrSpy(field)) {
             return instance;

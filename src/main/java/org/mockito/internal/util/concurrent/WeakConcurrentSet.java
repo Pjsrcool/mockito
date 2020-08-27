@@ -4,16 +4,10 @@
  */
 package org.mockito.internal.util.concurrent;
 
+import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * <p>
- * A thread-safe set with weak values. Entries are based on a key's system hash code and keys are considered equal only by reference equality.
- * </p>
- * This class does not implement the {@link java.util.Set} interface because this implementation is incompatible
- * with the set contract. While iterating over a set's entries, any value that has not passed iteration is referenced non-weakly.
- */
 public class WeakConcurrentSet<V> implements Runnable, Iterable<V> {
 
     final WeakConcurrentMap<V, Boolean> target;
@@ -99,6 +93,7 @@ public class WeakConcurrentSet<V> implements Runnable, Iterable<V> {
     /**
      * @return The cleaner thread or {@code null} if no such thread was set.
      */
+    @Nullable
     public Thread getCleanerThread() {
         return target.getCleanerThread();
     }

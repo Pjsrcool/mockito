@@ -4,14 +4,6 @@
  */
 package org.mockito.internal.creation.settings;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.mockito.listeners.InvocationListener;
 import org.mockito.listeners.StubbingLookupListener;
 import org.mockito.listeners.VerificationStartedListener;
@@ -20,15 +12,28 @@ import org.mockito.mock.MockName;
 import org.mockito.mock.SerializableMode;
 import org.mockito.stubbing.Answer;
 
+import javax.annotation.Nullable;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class CreationSettings<T> implements MockCreationSettings<T>, Serializable {
     private static final long serialVersionUID = -6789800638070123629L;
 
-    protected Class<T> typeToMock;
+    @Nullable protected Class<T> typeToMock;
     protected Set<Class<?>> extraInterfaces = new LinkedHashSet<Class<?>>();
-    protected String name;
-    protected Object spiedInstance;
-    protected Answer<Object> defaultAnswer;
-    protected MockName mockName;
+
+    @Nullable protected String name;
+
+    @Nullable protected Object spiedInstance;
+
+    @Nullable protected Answer<Object> defaultAnswer;
+
+    @Nullable protected MockName mockName;
     protected SerializableMode serializableMode = SerializableMode.NONE;
     protected List<InvocationListener> invocationListeners = new ArrayList<InvocationListener>();
 
@@ -44,8 +49,10 @@ public class CreationSettings<T> implements MockCreationSettings<T>, Serializabl
     protected boolean stubOnly;
     protected boolean stripAnnotations;
     private boolean useConstructor;
-    private Object outerClassInstance;
-    private Object[] constructorArgs;
+
+    @Nullable private Object outerClassInstance;
+
+    @Nullable private Object[] constructorArgs;
     protected boolean lenient;
 
     public CreationSettings() {}
@@ -72,6 +79,7 @@ public class CreationSettings<T> implements MockCreationSettings<T>, Serializabl
     }
 
     @Override
+    @Nullable
     public Class<T> getTypeToMock() {
         return typeToMock;
     }
@@ -91,21 +99,25 @@ public class CreationSettings<T> implements MockCreationSettings<T>, Serializabl
         return this;
     }
 
+    @Nullable
     public String getName() {
         return name;
     }
 
     @Override
+    @Nullable
     public Object getSpiedInstance() {
         return spiedInstance;
     }
 
     @Override
+    @Nullable
     public Answer<Object> getDefaultAnswer() {
         return defaultAnswer;
     }
 
     @Override
+    @Nullable
     public MockName getMockName() {
         return mockName;
     }
@@ -154,11 +166,13 @@ public class CreationSettings<T> implements MockCreationSettings<T>, Serializabl
     }
 
     @Override
+    @Nullable
     public Object[] getConstructorArgs() {
         return constructorArgs;
     }
 
     @Override
+    @Nullable
     public Object getOuterClassInstance() {
         return outerClassInstance;
     }

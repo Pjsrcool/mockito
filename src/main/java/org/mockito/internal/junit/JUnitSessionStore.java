@@ -43,7 +43,7 @@ class JUnitSessionStore {
                     closeable = MockitoAnnotations.openMocks(target);
                 }
                 Throwable testFailure = evaluateSafely(base);
-                //todo: NullAway after an initialization block
+                // todo: NullAway after an initialization block
                 MockitoSession nonnullSession = NullAwayUtil.castToNonNull(session);
                 nonnullSession.finishMocking(testFailure);
                 if (closeable != null) {
@@ -54,7 +54,8 @@ class JUnitSessionStore {
                 }
             }
 
-            @Nullable private Throwable evaluateSafely(Statement base) {
+            @Nullable
+            private Throwable evaluateSafely(Statement base) {
                 try {
                     base.evaluate();
                     return null;

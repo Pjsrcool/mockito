@@ -4,14 +4,7 @@
  */
 package org.mockito.internal.stubbing;
 
-import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
-
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
+import org.mockito.NullAwayUtil;
 import org.mockito.internal.invocation.StubInfoImpl;
 import org.mockito.internal.verification.DefaultRegisteredInvocations;
 import org.mockito.internal.verification.RegisteredInvocations;
@@ -26,6 +19,13 @@ import org.mockito.stubbing.Stubbing;
 import org.mockito.stubbing.ValidableAnswer;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
 
 @SuppressWarnings("unchecked")
 public class InvocationContainerImpl implements InvocationContainer, Serializable {
@@ -35,9 +35,10 @@ public class InvocationContainerImpl implements InvocationContainer, Serializabl
             new LinkedList<StubbedInvocationMatcher>();
     private final DoAnswerStyleStubbing doAnswerStyleStubbing;
     private final RegisteredInvocations registeredInvocations;
-    private final Strictness mockStrictness;
 
-    private MatchableInvocation invocationForStubbing;
+    @Nullable private final Strictness mockStrictness;
+
+    @Nullable private MatchableInvocation invocationForStubbing;
 
     public InvocationContainerImpl(MockCreationSettings mockSettings) {
         this.registeredInvocations = createRegisteredInvocations(mockSettings);
@@ -68,7 +69,9 @@ public class InvocationContainerImpl implements InvocationContainer, Serializabl
      */
     public StubbedInvocationMatcher addAnswer(
             Answer answer, boolean isConsecutive, @Nullable Strictness stubbingStrictness) {
-        Invocation invocation = invocationForStubbing.getInvocation();
+        // todo: NullAway pattern 3 - case 2
+        MatchableInvocation nonnullInvocation = NullAwayUtil.castToNonNull(invocationForStubbing);
+        Invocation invocation = nonnullInvocation.getInvocation();
         mockingProgress().stubbingCompleted();
         if (answer instanceof ValidableAnswer) {
             ((ValidableAnswer) answer).validateFor(invocation);
@@ -82,16 +85,20 @@ public class InvocationContainerImpl implements InvocationContainer, Serializabl
                         stubbingStrictness != null ? stubbingStrictness : this.mockStrictness;
                 stubbed.addFirst(
                         new StubbedInvocationMatcher(
-                                answer, invocationForStubbing, effectiveStrictness));
+                                answer, nonnullInvocation, effectiveStrictness));
             }
             return stubbed.getFirst();
         }
     }
 
     Object answerTo(Invocation invocation) throws Throwable {
-        return findAnswerFor(invocation).answer(invocation);
+        // todo: NullAway: real bug
+        StubbedInvocationMatcher nonnullStubbedInvocationMatcher =
+                NullAwayUtil.castToNonNull(findAnswerFor(invocation));
+        return nonnullStubbedInvocationMatcher.answer(invocation);
     }
 
+    @Nullable
     public StubbedInvocationMatcher findAnswerFor(Invocation invocation) {
         synchronized (stubbed) {
             for (StubbedInvocationMatcher s : stubbed) {
@@ -111,7 +118,7 @@ public class InvocationContainerImpl implements InvocationContainer, Serializabl
     /**
      * Sets the answers declared with 'doAnswer' style.
      */
-    public void setAnswersForStubbing(List<Answer<?>> answers, Strictness strictness) {
+    public void setAnswersForStubbing(List<Answer<?>> answers, @Nullable Strictness strictness) {
         doAnswerStyleStubbing.setAnswers(answers, strictness);
     }
 
@@ -165,9 +172,13 @@ public class InvocationContainerImpl implements InvocationContainer, Serializabl
     }
 
     public Object invokedMock() {
-        return invocationForStubbing.getInvocation().getMock();
+        // todo: NullAway: real bug
+        MatchableInvocation nonnullInvocationForStubbing =
+                NullAwayUtil.castToNonNull(invocationForStubbing);
+        return nonnullInvocationForStubbing.getInvocation().getMock();
     }
 
+    @Nullable
     public MatchableInvocation getInvocationForStubbing() {
         return invocationForStubbing;
     }

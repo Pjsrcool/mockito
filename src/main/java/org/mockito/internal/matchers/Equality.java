@@ -4,12 +4,12 @@
  */
 package org.mockito.internal.matchers;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Array;
 
-// stolen from hamcrest because I didn't want to have more dependency than Matcher class
 public class Equality {
 
-    public static boolean areEqual(Object o1, Object o2) {
+    public static boolean areEqual(@Nullable Object o1, @Nullable Object o2) {
         if (o1 == o2) {
             return true;
         } else if (o1 == null || o2 == null) {

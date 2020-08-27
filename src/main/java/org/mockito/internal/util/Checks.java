@@ -4,16 +4,16 @@
  */
 package org.mockito.internal.util;
 
-/**
- * Pre-made preconditions
- */
+import javax.annotation.Nullable;
+
 public class Checks {
 
-    public static <T> T checkNotNull(T value, String checkedValue) {
+    public static <T> T checkNotNull(@Nullable T value, String checkedValue) {
         return checkNotNull(value, checkedValue, null);
     }
 
-    public static <T> T checkNotNull(T value, String checkedValue, String additionalMessage) {
+    public static <T> T checkNotNull(
+            @Nullable T value, String checkedValue, @Nullable String additionalMessage) {
         if (value == null) {
             String message = checkedValue + " should not be null";
             if (additionalMessage != null) {

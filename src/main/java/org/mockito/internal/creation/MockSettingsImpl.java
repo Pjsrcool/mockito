@@ -4,22 +4,6 @@
  */
 package org.mockito.internal.creation;
 
-import static java.util.Arrays.asList;
-
-import static org.mockito.internal.exceptions.Reporter.defaultAnswerDoesNotAcceptNullParameter;
-import static org.mockito.internal.exceptions.Reporter.extraInterfacesAcceptsOnlyInterfaces;
-import static org.mockito.internal.exceptions.Reporter.extraInterfacesDoesNotAcceptNullParameters;
-import static org.mockito.internal.exceptions.Reporter.extraInterfacesRequiresAtLeastOneInterface;
-import static org.mockito.internal.exceptions.Reporter.methodDoesNotAcceptParameter;
-import static org.mockito.internal.exceptions.Reporter.requiresAtLeastOneListener;
-import static org.mockito.internal.util.collections.Sets.newSet;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.mockito.MockSettings;
 import org.mockito.NullAwayUtil;
 import org.mockito.exceptions.base.MockitoException;
@@ -37,6 +21,20 @@ import org.mockito.mock.SerializableMode;
 import org.mockito.stubbing.Answer;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static java.util.Arrays.asList;
+import static org.mockito.internal.exceptions.Reporter.defaultAnswerDoesNotAcceptNullParameter;
+import static org.mockito.internal.exceptions.Reporter.extraInterfacesAcceptsOnlyInterfaces;
+import static org.mockito.internal.exceptions.Reporter.extraInterfacesDoesNotAcceptNullParameters;
+import static org.mockito.internal.exceptions.Reporter.extraInterfacesRequiresAtLeastOneInterface;
+import static org.mockito.internal.exceptions.Reporter.methodDoesNotAcceptParameter;
+import static org.mockito.internal.exceptions.Reporter.requiresAtLeastOneListener;
+import static org.mockito.internal.util.collections.Sets.newSet;
 
 @SuppressWarnings("unchecked")
 public class MockSettingsImpl<T> extends CreationSettings<T>
@@ -76,6 +74,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     }
 
     @Override
+    @Nullable
     public MockName getMockName() {
         return mockName;
     }
@@ -86,6 +85,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     }
 
     @Override
+    @Nullable
     public Object getSpiedInstance() {
         return spiedInstance;
     }
@@ -112,6 +112,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     }
 
     @Override
+    @Nullable
     public Answer<Object> getDefaultAnswer() {
         return defaultAnswer;
     }
@@ -162,7 +163,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
         if (outerClassInstance == null) {
             return constructorArgs;
         }
-        //todo: NullAway: real bug
+        // todo: NullAway: real bug
         Object[] nonnullConstructorArgs = NullAwayUtil.castToNonNull(constructorArgs);
         List<Object> resultArgs = new ArrayList<Object>(nonnullConstructorArgs.length + 1);
         resultArgs.add(outerClassInstance);
@@ -230,6 +231,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     }
 
     @Override
+    @Nullable
     public Class<T> getTypeToMock() {
         return typeToMock;
     }

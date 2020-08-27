@@ -4,15 +4,14 @@
  */
 package org.mockito.internal.exceptions.stacktrace;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.mockito.exceptions.stacktrace.StackTraceCleaner;
 import org.mockito.internal.configuration.plugins.Plugins;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StackTraceFilter implements Serializable {
 
@@ -74,7 +73,8 @@ public class StackTraceFilter implements Serializable {
      *     not be filtered out per {@link StackTraceFilter#CLEANER}.
      * @return The first {@link StackTraceElement} outside of the {@link StackTraceFilter#CLEANER}
      */
-    @Nullable public StackTraceElement filterFirst(Throwable target, boolean isInline) {
+    @Nullable
+    public StackTraceElement filterFirst(Throwable target, boolean isInline) {
         boolean shouldSkip = isInline;
 
         if (GET_STACK_TRACE_ELEMENT != null) {

@@ -4,12 +4,6 @@
  */
 package org.mockito.internal.stubbing.defaultanswers;
 
-import static org.mockito.internal.util.ObjectMethodsGuru.isCompareToMethod;
-import static org.mockito.internal.util.ObjectMethodsGuru.isToStringMethod;
-
-import java.io.Serializable;
-import java.util.*;
-
 import org.mockito.internal.util.JavaEightUtil;
 import org.mockito.internal.util.MockUtil;
 import org.mockito.internal.util.Primitives;
@@ -18,6 +12,24 @@ import org.mockito.mock.MockName;
 import org.mockito.stubbing.Answer;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import static org.mockito.internal.util.ObjectMethodsGuru.isCompareToMethod;
+import static org.mockito.internal.util.ObjectMethodsGuru.isToStringMethod;
 
 /**
  * Default answer of every Mockito mock.
@@ -58,7 +70,8 @@ public class ReturnsEmptyValues implements Answer<Object>, Serializable {
     /* (non-Javadoc)
      * @see org.mockito.stubbing.Answer#answer(org.mockito.invocation.InvocationOnMock)
      */
-    @Nullable public Object answer(InvocationOnMock invocation) {
+    @Nullable
+    public Object answer(InvocationOnMock invocation) {
         if (isToStringMethod(invocation.getMethod())) {
             Object mock = invocation.getMock();
             MockName name = MockUtil.getMockName(mock);
