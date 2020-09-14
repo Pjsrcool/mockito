@@ -53,7 +53,6 @@ public class ReturnsMoreEmptyValues implements Answer<Object>, Serializable {
     /* (non-Javadoc)
      * @see org.mockito.stubbing.Answer#answer(org.mockito.invocation.InvocationOnMock)
      */
-    @SuppressWarnings("NullAway") // todo: NullAway avoid superclass errors
     @Nullable
     public Object answer(InvocationOnMock invocation) throws Throwable {
         Object ret = delegate.answer(invocation);

@@ -100,7 +100,7 @@ public class VerificationCollectorImpl implements VerificationCollector {
             try {
                 this.delegate.verify(data);
             } catch (AssertionError error) {
-                // todo: NullAway: no sure why here is Nullable
+                // todo: NullAway: not sure why here is Nullable
                 VerificationCollectorImpl.this.append(error.getMessage());
             }
         }
