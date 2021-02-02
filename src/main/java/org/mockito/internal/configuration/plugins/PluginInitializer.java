@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.configuration.plugins;
 
+import javax.annotation.Nullable;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
@@ -27,6 +29,7 @@ class PluginInitializer {
      * Equivalent to {@link java.util.ServiceLoader#load} but without requiring
      * Java 6 / Android 2.3 (Gingerbread).
      */
+    @Nullable
     public <T> T loadImpl(Class<T> service) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if (loader == null) {

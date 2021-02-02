@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.creation.bytebuddy;
 
+import javax.annotation.Nullable;
+
 import static org.mockito.internal.util.StringUtil.join;
 
 import java.lang.reflect.Modifier;
@@ -15,16 +17,6 @@ import org.mockito.internal.util.Platform;
 import org.mockito.invocation.MockHandler;
 import org.mockito.mock.MockCreationSettings;
 
-/**
- * Subclass based mock maker.
- *
- * This mock maker tries to create a subclass to represent a mock. It uses the given mock settings, that contains
- * the type to mock, extra interfaces, and serialization support.
- *
- * <p>
- * The type to mock has to be not final and not part of the JDK. THe created mock will implement extra interfaces
- * if any. And will implement <code>Serializable</code> if this settings is explicitly set.
- */
 public class SubclassByteBuddyMockMaker implements ClassCreatingMockMaker {
 
     private final BytecodeGenerator cachingMockBytecodeGenerator;
@@ -139,11 +131,11 @@ public class SubclassByteBuddyMockMaker implements ClassCreatingMockMaker {
                         + "'";
     }
 
-    private static String describeClass(Object instance) {
+    private static String describeClass(@Nullable Object instance) {
         return instance == null ? "null" : describeClass(instance.getClass());
     }
 
-    @Override
+    @Override@Nullable
     public MockHandler getHandler(Object mock) {
         if (!(mock instanceof MockAccess)) {
             return null;

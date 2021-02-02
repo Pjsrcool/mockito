@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.configuration.plugins;
 
+import javax.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +60,7 @@ class DefaultMockitoPlugins implements MockitoPlugins {
         }
     }
 
+    @Nullable
     String getDefaultPluginClass(String classOrAlias) {
         return DEFAULT_PLUGINS.get(classOrAlias);
     }
@@ -65,7 +68,7 @@ class DefaultMockitoPlugins implements MockitoPlugins {
     /**
      * Creates an instance of given plugin type, using specific implementation class.
      */
-    private <T> T create(Class<T> pluginType, String className) {
+    private <T> T create(Class<T> pluginType, @Nullable String className) {
         if (className == null) {
             throw new IllegalStateException(
                     "No default implementation for requested Mockito plugin type: "

@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.util.reflection;
 
+import javax.annotation.Nullable;
+
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.agent.ByteBuddyAgent;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
@@ -306,7 +308,7 @@ class InstrumentationMemberAccessor implements MemberAccessor {
 
     private static void assureArguments(
             AccessibleObject target,
-            Object owner,
+            @Nullable Object owner,
             Class<?> type,
             Object[] values,
             Class<?>[] types) {

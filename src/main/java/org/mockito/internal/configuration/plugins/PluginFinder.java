@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.configuration.plugins;
 
+import javax.annotation.Nullable;
+
 import java.io.InputStream;
 import java.net.URL;
 
@@ -19,6 +21,7 @@ class PluginFinder {
         this.pluginSwitch = pluginSwitch;
     }
 
+    @Nullable
     String findPluginClass(Iterable<URL> resources) {
         for (URL resource : resources) {
             InputStream s = null;

@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.stubbing;
 
+import javax.annotation.Nullable;
+
 import static org.mockito.internal.exceptions.Reporter.notAnException;
 import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
 
@@ -49,11 +51,11 @@ public abstract class BaseStubbing<T> implements OngoingStubbing<T> {
         return stubbing;
     }
 
-    private OngoingStubbing<T> thenThrow(Throwable throwable) {
+    private OngoingStubbing<T> thenThrow(@Nullable Throwable throwable) {
         return thenAnswer(new ThrowsException(throwable));
     }
 
-    @Override
+    @Override@Nullable
     public OngoingStubbing<T> thenThrow(Throwable... throwables) {
         if (throwables == null) {
             return thenThrow((Throwable) null);
@@ -70,7 +72,7 @@ public abstract class BaseStubbing<T> implements OngoingStubbing<T> {
     }
 
     @Override
-    public OngoingStubbing<T> thenThrow(Class<? extends Throwable> throwableType) {
+    public OngoingStubbing<T> thenThrow(@Nullable Class<? extends Throwable> throwableType) {
         if (throwableType == null) {
             mockingProgress().reset();
             throw notAnException();

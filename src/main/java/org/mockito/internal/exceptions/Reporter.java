@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.exceptions;
 
+import javax.annotation.Nullable;
+
 import static org.mockito.internal.reporting.Pluralizer.pluralize;
 import static org.mockito.internal.reporting.Pluralizer.were_exactly_x_interactions;
 import static org.mockito.internal.util.StringUtil.join;
@@ -37,17 +39,6 @@ import org.mockito.invocation.Location;
 import org.mockito.listeners.InvocationListener;
 import org.mockito.mock.SerializableMode;
 
-/**
- * Reports verification and misusing errors.
- * <p>
- * One of the key points of mocking library is proper verification/exception
- * messages. All messages in one place makes it easier to tune and amend them.
- * <p>
- * Reporter can be injected and therefore is easily testable.
- * <p>
- * Generally, exception messages are full of line breaks to make them easy to
- * read (xunit plugins take only fraction of screen on modern IDEs).
- */
 public class Reporter {
 
     private static final String NON_PUBLIC_PARENT =
@@ -746,7 +737,7 @@ public class Reporter {
     }
 
     public static MockitoException cannotInitializeForInjectMocksAnnotation(
-            String fieldName, String causeMessage) {
+            String fieldName, @Nullable String causeMessage) {
         return new MockitoException(
                 join(
                         "Cannot instantiate @InjectMocks field named '"
@@ -826,6 +817,7 @@ public class Reporter {
                 details);
     }
 
+    @Nullable
     private static String exceptionCauseMessageIfAvailable(Exception details) {
         if (details.getCause() == null) {
             return details.getMessage();
@@ -1019,7 +1011,7 @@ public class Reporter {
     }
 
     public static UnnecessaryStubbingException formatUnncessaryStubbingException(
-            Class<?> testClass, Collection<Invocation> unnecessaryStubbings) {
+            @Nullable Class<?> testClass, Collection<Invocation> unnecessaryStubbings) {
         StringBuilder stubbings = new StringBuilder();
         int count = 1;
         for (Invocation u : unnecessaryStubbings) {

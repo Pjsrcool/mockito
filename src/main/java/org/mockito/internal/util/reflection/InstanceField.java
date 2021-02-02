@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.util.reflection;
 
+import javax.annotation.Nullable;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
@@ -12,14 +14,11 @@ import org.mockito.internal.configuration.plugins.Plugins;
 import org.mockito.internal.util.Checks;
 import org.mockito.plugins.MemberAccessor;
 
-/**
- * Represents an accessible instance field.
- *
- * Contains the instance reference on which the field can be read and write.
- */
 public class InstanceField {
     private final Field field;
     private final Object instance;
+
+    @Nullable
     private FieldReader fieldReader;
 
     /**

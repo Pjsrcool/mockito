@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.junit.util;
 
+import javax.annotation.Nullable;
+
 import java.lang.reflect.Field;
 
 import org.junit.runner.notification.Failure;
@@ -80,6 +82,7 @@ public class JUnitFailureHacker {
         return f;
     }
 
+    @Nullable
     private static Field getField(Class<?> clazz, String field) {
         try {
             return clazz.getDeclaredField(field);

@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.session;
 
+import javax.annotation.Nullable;
+
 import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
@@ -20,8 +22,14 @@ import org.mockito.session.MockitoSessionLogger;
 public class DefaultMockitoSessionBuilder implements MockitoSessionBuilder {
 
     private List<Object> testClassInstances = new ArrayList<Object>();
+
+    @Nullable
     private String name;
+
+    @Nullable
     private Strictness strictness;
+
+    @Nullable
     private MockitoSessionLogger logger;
 
     @Override

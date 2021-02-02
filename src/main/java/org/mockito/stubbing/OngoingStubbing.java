@@ -4,34 +4,11 @@
  */
 package org.mockito.stubbing;
 
+import javax.annotation.Nullable;
+
 import org.mockito.Mockito;
 import org.mockito.NotExtensible;
 
-/**
- * Simply put: "<b>When</b> the x method is called <b>then</b> return y". E.g:
- *
- * <pre class="code"><code class="java">
- * <b>when</b>(mock.someMethod()).<b>thenReturn</b>(10);
- *
- * //you can use flexible argument matchers, e.g:
- * when(mock.someMethod(<b>anyString()</b>)).thenReturn(10);
- *
- * //setting exception to be thrown:
- * when(mock.someMethod("some arg")).thenThrow(new RuntimeException());
- *
- * //you can set different behavior for consecutive method calls.
- * //Last stubbing (e.g: thenReturn("foo")) determines the behavior of further consecutive calls.
- * when(mock.someMethod("some arg"))
- *  .thenThrow(new RuntimeException())
- *  .thenReturn("foo");
- *
- * //There is a shorter way of consecutive stubbing:
- * when(mock.someMethod()).thenReturn(1,2,3);
- * when(mock.otherMethod()).thenThrow(exc1, exc2);
- * </code></pre>
- *
- * See examples in javadoc for {@link Mockito#when}
- */
 @NotExtensible
 public interface OngoingStubbing<T> {
 
@@ -47,7 +24,7 @@ public interface OngoingStubbing<T> {
      *
      * @return object that allows stubbing consecutive calls
      */
-    OngoingStubbing<T> thenReturn(T value);
+    OngoingStubbing<T> thenReturn(@Nullable T value);
 
     /**
      * Sets consecutive return values to be returned when the method is called. E.g:

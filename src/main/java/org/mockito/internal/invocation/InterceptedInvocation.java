@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.invocation;
 
+import javax.annotation.Nullable;
+
 import static org.mockito.internal.exceptions.Reporter.cannotCallAbstractRealMethod;
 import static org.mockito.internal.invocation.ArgumentsProcessor.argumentsToMatchers;
 
@@ -34,6 +36,8 @@ public class InterceptedInvocation implements Invocation, VerificationAwareInvoc
 
     private boolean verified;
     private boolean isIgnoredForVerification;
+
+    @Nullable
     private StubInfo stubInfo;
 
     public InterceptedInvocation(

@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.creation.bytebuddy.inject;
 
+import javax.annotation.Nullable;
+
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,6 +16,7 @@ public abstract class MockMethodDispatcher {
     private static final ConcurrentMap<String, MockMethodDispatcher> DISPATCHERS =
             new ConcurrentHashMap<>();
 
+    @Nullable
     public static MockMethodDispatcher get(String identifier, Object mock) {
         if (mock == DISPATCHERS) {
             // Avoid endless loop if ConcurrentHashMap was redefined to check for being a mock.
@@ -23,6 +26,7 @@ public abstract class MockMethodDispatcher {
         }
     }
 
+    @Nullable
     public static MockMethodDispatcher getStatic(String identifier, Class<?> type) {
         if (MockMethodDispatcher.class.isAssignableFrom(type) || type == ConcurrentHashMap.class) {
             // Avoid endless loop for lookups of self.

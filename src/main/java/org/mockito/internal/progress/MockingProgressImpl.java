@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.progress;
 
+import javax.annotation.Nullable;
+
 import static org.mockito.internal.exceptions.Reporter.unfinishedStubbing;
 import static org.mockito.internal.exceptions.Reporter.unfinishedVerificationException;
 
@@ -31,8 +33,13 @@ public class MockingProgressImpl implements MockingProgress {
 
     private final ArgumentMatcherStorage argumentMatcherStorage = new ArgumentMatcherStorageImpl();
 
+    @Nullable
     private OngoingStubbing<?> ongoingStubbing;
+
+    @Nullable
     private Localized<VerificationMode> verificationMode;
+
+    @Nullable
     private Location stubbingInProgress = null;
     private VerificationStrategy verificationStrategy;
     private final Set<MockitoListener> listeners = new LinkedHashSet<MockitoListener>();
@@ -86,6 +93,7 @@ public class MockingProgressImpl implements MockingProgress {
         ongoingStubbing = null;
     }
 
+    @Nullable
     public VerificationMode pullVerificationMode() {
         if (verificationMode == null) {
             return null;

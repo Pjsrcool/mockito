@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.framework;
 
+import javax.annotation.Nullable;
+
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.MockitoSession;
@@ -66,7 +68,7 @@ public class DefaultMockitoSession implements MockitoSession {
     }
 
     @Override
-    public void finishMocking(final Throwable failure) {
+    public void finishMocking(@Nullable final Throwable failure) {
         try {
             // Cleaning up the state, we no longer need the listener hooked up
             // The listener implements MockCreationListener and at this point
