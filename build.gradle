@@ -131,6 +131,10 @@ autoFixMode {
     maximumRound = 100
 }
 
+diagnoseMode {
+    fixPath = "/tmp/NullAwayFix/diagnose.json"
+}
+
 wrapper {
     gradleVersion = '5.3.1'
     distributionSha256Sum = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
