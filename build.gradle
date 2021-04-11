@@ -17,6 +17,7 @@ buildscript {
 }
 
 plugins {
+    id "java"
     id "com.diffplug.gradle.spotless" version "3.24.3"
     id 'eclipse'
     id 'com.github.ben-manes.versions' version '0.28.0'
@@ -51,6 +52,8 @@ apply from: 'gradle/dependencies.gradle'
 
 allprojects { proj ->
     repositories {
+        mavenLocal()
+        mavenCentral()
         jcenter()
     }
     plugins.withId('java') {
@@ -75,7 +78,7 @@ allprojects { proj ->
 
     apply plugin: 'checkstyle'
     checkstyle {
-       configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
     }
 }
 
@@ -98,6 +101,26 @@ dependencies {
     testRuntime configurations.compileOnly
 
     testUtil sourceSets.test.output
+
+    annotationProcessor "edu.ucr.cs.riple:nullaway:0.7.12-SNAPSHOT"
+
+    compileOnly "com.google.code.findbugs:jsr305:3.0.2"
+    errorprone "com.google.errorprone:error_prone_core:2.3.2"
+    errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
+}
+
+import net.ltgt.gradle.errorprone.CheckSeverity
+
+tasks.withType(JavaCompile) {
+    // remove the if condition if you want to run NullAway on test code
+    if (!name.toLowerCase().contains("test")) {
+        options.errorprone {
+            check("NullAway", CheckSeverity.ERROR)
+            option("NullAway:AnnotatedPackages", "org.mockito")
+            option("NullAway:AutoFix", "true")
+        }
+        options.compilerArgs << "-Xmaxerrs" << "100000"
+    }
 }
 
 wrapper {
@@ -114,9 +137,9 @@ spotless {
 
         customLazyGroovy('google-java-format') {
             com.google.googlejavaformat.java.JavaFormatterOptions options = new com.google.googlejavaformat.java.JavaFormatterOptions.Builder()
-                    .style(com.google.googlejavaformat.java.JavaFormatterOptions.Style.AOSP)
-                    .formatJavadoc(false)
-                    .build()
+                .style(com.google.googlejavaformat.java.JavaFormatterOptions.Style.AOSP)
+                .formatJavadoc(false)
+                .build()
             com.google.googlejavaformat.java.Formatter formatter = new com.google.googlejavaformat.java.Formatter(options)
             return { source -> formatter.formatSource(source) }
         }
@@ -129,11 +152,11 @@ spotless {
 
 //workaround for #1444, delete when Shipkit bug is fixed
 subprojects {
-	eclipse {
-		project {
-			name = rootProject.name + '-' + project.name
-		}
-	}
+    eclipse {
+        project {
+            name = rootProject.name + '-' + project.name
+        }
+    }
 
     afterEvaluate {
         def lib = publishing.publications.javaLibrary
