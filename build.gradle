@@ -18,7 +18,6 @@ buildscript {
 
 plugins {
     id "java"
-    id "com.diffplug.gradle.spotless" version "3.24.3"
     id 'eclipse'
     id 'com.github.ben-manes.versions' version '0.28.0'
     id 'biz.aQute.bnd.builder' version '5.1.0'
@@ -75,11 +74,6 @@ allprojects { proj ->
         preserveFileTimestamps = false
         reproducibleFileOrder = true
     }
-
-    apply plugin: 'checkstyle'
-    checkstyle {
-        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
-    }
 }
 
 configurations {
@@ -127,28 +121,6 @@ wrapper {
     gradleVersion = '5.3.1'
     distributionSha256Sum = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
 }
-
-spotless {
-    // We run the check separately on Travis, so don't run this by default
-    enforceCheck = false
-
-    java {
-        licenseHeaderFile rootProject.file('config/spotless/spotless.header')
-
-        customLazyGroovy('google-java-format') {
-            com.google.googlejavaformat.java.JavaFormatterOptions options = new com.google.googlejavaformat.java.JavaFormatterOptions.Builder()
-                .style(com.google.googlejavaformat.java.JavaFormatterOptions.Style.AOSP)
-                .formatJavadoc(false)
-                .build()
-            com.google.googlejavaformat.java.Formatter formatter = new com.google.googlejavaformat.java.Formatter(options)
-            return { source -> formatter.formatSource(source) }
-        }
-
-        // This test contains emulation of same-line stubbings. The formatter would put them on a separate line.
-        targetExclude 'src/test/java/org/mockitousage/internal/junit/UnusedStubbingsFinderTest.java'
-    }
-}
-
 
 //workaround for #1444, delete when Shipkit bug is fixed
 subprojects {
