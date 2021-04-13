@@ -4,8 +4,6 @@
  */
 package org.mockito.internal.stubbing.defaultanswers;
 
-import javax.annotation.Nullable;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -20,7 +18,6 @@ class RetrieveGenericsForDefaultAnswers {
 
     private static final MockitoCore MOCKITO_CORE = new MockitoCore();
 
-    @Nullable
     static Object returnTypeForMockWithCorrectGenerics(
             InvocationOnMock invocation, AnswerCallback answerCallback) {
         Class<?> type = invocation.getMethod().getReturnType();
