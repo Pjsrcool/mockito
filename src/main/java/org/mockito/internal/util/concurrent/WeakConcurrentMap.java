@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.util.concurrent;
 
+import javax.annotation.Nullable;
+
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
@@ -14,14 +16,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * <p>
- * A thread-safe map with weak keys. Entries are based on a key's system hash code and keys are considered
- * equal only by reference equality.
- * </p>
- * This class does not implement the {@link java.util.Map} interface because this implementation is incompatible
- * with the map contract. While iterating over a map's entries, any key that has not passed iteration is referenced non-weakly.
- */
 public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
         implements Runnable, Iterable<Map.Entry<K, V>> {
 
@@ -111,6 +105,7 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
      * @param key The key for which to create a default value.
      * @return The default value for a key without value or {@code null} for not defining a default value.
      */
+    @Nullable
     protected V defaultValue(K key) {
         return null;
     }
@@ -294,8 +289,10 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
 
         private final Iterator<Map.Entry<WeakKey<K>, V>> iterator;
 
+        @Nullable
         private Map.Entry<WeakKey<K>, V> nextEntry;
 
+        @Nullable
         private K nextKey;
 
         private EntryIterator(Iterator<Map.Entry<WeakKey<K>, V>> iterator) {

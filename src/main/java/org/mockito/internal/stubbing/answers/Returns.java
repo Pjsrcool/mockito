@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.stubbing.answers;
 
+import javax.annotation.Nullable;
+
 import static org.mockito.internal.exceptions.Reporter.cannotStubVoidMethodWithAReturnValue;
 import static org.mockito.internal.exceptions.Reporter.wrongTypeOfReturnValue;
 
@@ -18,7 +20,7 @@ public class Returns implements Answer<Object>, ValidableAnswer, Serializable {
     private static final long serialVersionUID = -6245608253574215396L;
     private final Object value;
 
-    public Returns(Object value) {
+    public Returns(@Nullable Object value) {
         this.value = value;
     }
 

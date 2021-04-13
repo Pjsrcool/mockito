@@ -4,17 +4,10 @@
  */
 package org.mockito.listeners;
 
+import javax.annotation.Nullable;
+
 import org.mockito.invocation.DescribedInvocation;
 
-/**
- * Represent a method call on a mock.
- *
- * <p>
- *     Contains the information on the mock, the location of the stub
- *     the return value if it returned something (maybe null), or an
- *     exception if one was thrown when the method was invoked.
- * </p>
- */
 public interface MethodInvocationReport {
     /**
      * @return Information on the method call, never {@code null}
@@ -39,5 +32,6 @@ public interface MethodInvocationReport {
     /**
      * @return Location of the stub invocation
      */
+    @Nullable
     String getLocationOfStubbing();
 }

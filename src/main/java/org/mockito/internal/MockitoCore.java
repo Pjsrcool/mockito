@@ -4,6 +4,8 @@
  */
 package org.mockito.internal;
 
+import javax.annotation.Nullable;
+
 import org.mockito.*;
 import org.mockito.exceptions.misusing.NotAMockException;
 import org.mockito.internal.creation.MockSettingsImpl;
@@ -236,7 +238,7 @@ public class MockitoCore {
         return stubber(null);
     }
 
-    public Stubber stubber(Strictness strictness) {
+    public Stubber stubber(@Nullable Strictness strictness) {
         MockingProgress mockingProgress = mockingProgress();
         mockingProgress.stubbingStarted();
         mockingProgress.resetOngoingStubbing();

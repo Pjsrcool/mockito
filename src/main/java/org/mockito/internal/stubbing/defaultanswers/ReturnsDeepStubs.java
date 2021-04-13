@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.stubbing.defaultanswers;
 
+import javax.annotation.Nullable;
+
 import static org.mockito.Mockito.withSettings;
 
 import java.io.IOException;
@@ -22,30 +24,11 @@ import org.mockito.mock.MockCreationSettings;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Stubbing;
 
-/**
- * Returning deep stub implementation.
- *
- * <p>Will return previously created mock if the invocation matches.
- *
- * <p>Supports nested generic information, with this answer you can write code like this :
- *
- * <pre class="code"><code class="java">
- *     interface GenericsNest&lt;K extends Comparable&lt;K&gt; & Cloneable&gt; extends Map&lt;K, Set&lt;Number&gt;&gt; {}
- *
- *     GenericsNest&lt;?&gt; mock = mock(GenericsNest.class, new ReturnsGenericDeepStubs());
- *     Number number = mock.entrySet().iterator().next().getValue().iterator().next();
- * </code></pre>
- * </p>
- *
- * <p>However this answer does not support generics information when the mock has been deserialized.
- *
- * @see org.mockito.Mockito#RETURNS_DEEP_STUBS
- * @see org.mockito.Answers#RETURNS_DEEP_STUBS
- */
 public class ReturnsDeepStubs implements Answer<Object>, Serializable {
 
     private static final long serialVersionUID = -7105341425736035847L;
 
+    @Nullable
     public Object answer(InvocationOnMock invocation) throws Throwable {
         GenericMetadataSupport returnTypeGenericMetadata =
                 actualParameterizedType(invocation.getMock())

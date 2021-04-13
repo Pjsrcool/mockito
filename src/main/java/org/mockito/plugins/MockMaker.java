@@ -4,6 +4,8 @@
  */
 package org.mockito.plugins;
 
+import javax.annotation.Nullable;
+
 import org.mockito.Incubating;
 import org.mockito.MockedConstruction;
 import org.mockito.exceptions.base.MockitoException;
@@ -16,40 +18,6 @@ import java.util.function.Function;
 
 import static org.mockito.internal.util.StringUtil.join;
 
-/**
- * The facility to create mocks.
- *
- * <p>By default, an internal byte-buddy/asm/objenesis based implementation is used.</p>
- *
- * <p>{@code MockMaker} is an extension point that makes it possible to use custom dynamic proxies
- * and avoid using the default byte-buddy/asm/objenesis implementation.
- * For example, the android users can use a MockMaker that can work with Dalvik virtual machine
- * and hence bring Mockito to android apps developers.</p>
- *
- * <h3>Using the extension point</h3>
- *
- * <p>Suppose you wrote an extension to create mocks with some <em>Awesome</em> library, in order to tell
- * Mockito to use it you need to put in your <strong>classpath</strong>:
- * <ol style="list-style-type: lower-alpha">
- *     <li>
- *         The implementation itself, for example <code>org.awesome.mockito.AwesomeMockMaker</code> that
- *         extends the <code>MockMaker</code>.
- *     </li>
- *     <li>
- *         A file "<code>mockito-extensions/org.mockito.plugins.MockMaker</code>". The content of this file is
- *         exactly a <strong>one</strong> line with the qualified name:
- *         <code>org.awesome.mockito.AwesomeMockMaker</code>.
- *      </li>
- * </ol>
- * </p>
- *
- * <p>Note that if several <code>mockito-extensions/org.mockito.plugins.MockMaker</code> files exists in the classpath
- * Mockito will only use the first returned by the standard {@link ClassLoader#getResource} mechanism.
- *
- * @see org.mockito.mock.MockCreationSettings
- * @see org.mockito.invocation.MockHandler
- * @since 1.9.5
- */
 public interface MockMaker {
 
     /**
@@ -103,6 +71,7 @@ public interface MockMaker {
      *   This means the passed object is not really a Mockito mock.
      * @since 1.9.5
      */
+    @Nullable
     MockHandler getHandler(Object mock);
 
     /**

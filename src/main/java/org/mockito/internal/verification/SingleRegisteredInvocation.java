@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.verification;
 
+import javax.annotation.Nullable;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +14,7 @@ import org.mockito.invocation.Invocation;
 
 public class SingleRegisteredInvocation implements RegisteredInvocations, Serializable {
 
+    @Nullable
     private Invocation invocation;
 
     public void add(Invocation invocation) {

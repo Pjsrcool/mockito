@@ -4,24 +4,13 @@
  */
 package org.mockito.invocation;
 
+import javax.annotation.Nullable;
+
 import java.util.List;
 
 import org.mockito.ArgumentMatcher;
 import org.mockito.NotExtensible;
 
-/**
- * A method call on a mock object. Contains all information and state needed for the Mockito framework to operate.
- * This API might be useful for developers who extend Mockito.
- * <p>
- * The javadoc does not have lots of examples or documentation because its audience is different.
- * Vast majority of users don't need to use the Invocation. It's mostly useful for other framework authors
- * that extend Mockito.
- * <p>
- * Creating own implementations of this interface is not recommended.
- * If you are a framework integrator and you need to programmatically create instances of invocations see {@link InvocationFactory}.
- *
- * @since 1.9.5
- */
 @NotExtensible
 public interface Invocation extends InvocationOnMock, DescribedInvocation {
 
@@ -78,6 +67,7 @@ public interface Invocation extends InvocationOnMock, DescribedInvocation {
      * @return the stubbing information for this invocation. May return null - this means
      * the invocation was not stubbed.
      */
+    @Nullable
     StubInfo stubInfo();
 
     /**

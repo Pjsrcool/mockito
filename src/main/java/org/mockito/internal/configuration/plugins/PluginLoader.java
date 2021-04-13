@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.configuration.plugins;
 
+import javax.annotation.Nullable;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -58,7 +60,7 @@ class PluginLoader {
     @SuppressWarnings("unchecked")
     <PreferredType, AlternateType> Object loadPlugin(
             final Class<PreferredType> preferredPluginType,
-            final Class<AlternateType> alternatePluginType) {
+            @Nullable final Class<AlternateType> alternatePluginType) {
         try {
             PreferredType preferredPlugin = initializer.loadImpl(preferredPluginType);
             if (preferredPlugin != null) {

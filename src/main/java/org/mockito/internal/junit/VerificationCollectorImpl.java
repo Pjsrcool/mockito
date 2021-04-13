@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.junit;
 
+import javax.annotation.Nullable;
+
 import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
 
 import org.junit.runner.Description;
@@ -15,9 +17,6 @@ import org.mockito.junit.VerificationCollector;
 import org.mockito.verification.VerificationMode;
 import org.mockito.verification.VerificationStrategy;
 
-/**
- * Mockito implementation of VerificationCollector.
- */
 public class VerificationCollectorImpl implements VerificationCollector {
 
     private StringBuilder builder;
@@ -76,7 +75,7 @@ public class VerificationCollectorImpl implements VerificationCollector {
         this.numberOfFailures = 0;
     }
 
-    private void append(String message) {
+    private void append(@Nullable String message) {
         this.numberOfFailures++;
         this.builder
                 .append('\n')

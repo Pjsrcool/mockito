@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.creation;
 
+import javax.annotation.Nullable;
+
 import static java.util.Arrays.asList;
 
 import static org.mockito.internal.exceptions.Reporter.defaultAnswerDoesNotAcceptNullParameter;
@@ -41,6 +43,8 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
 
     private static final long serialVersionUID = 4475297236197939569L;
     private boolean useConstructor;
+
+    @Nullable
     private Object outerClassInstance;
     private Object[] constructorArgs;
 
@@ -147,7 +151,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
         return useConstructor;
     }
 
-    @Override
+    @Override@Nullable
     public Object getOuterClassInstance() {
         return outerClassInstance;
     }

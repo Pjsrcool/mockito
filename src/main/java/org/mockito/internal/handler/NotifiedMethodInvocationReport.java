@@ -4,15 +4,14 @@
  */
 package org.mockito.internal.handler;
 
+import javax.annotation.Nullable;
+
 import static org.mockito.internal.matchers.Equality.areEqual;
 
 import org.mockito.invocation.DescribedInvocation;
 import org.mockito.invocation.Invocation;
 import org.mockito.listeners.MethodInvocationReport;
 
-/**
- * Report on a method call
- */
 public class NotifiedMethodInvocationReport implements MethodInvocationReport {
     private final Invocation invocation;
     private final Object returnedValue;
@@ -60,6 +59,7 @@ public class NotifiedMethodInvocationReport implements MethodInvocationReport {
         return throwable != null;
     }
 
+    @Nullable
     public String getLocationOfStubbing() {
         return (invocation.stubInfo() == null)
                 ? null

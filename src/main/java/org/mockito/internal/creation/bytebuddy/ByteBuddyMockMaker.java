@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.creation.bytebuddy;
 
+import javax.annotation.Nullable;
+
 import org.mockito.Incubating;
 import org.mockito.MockedConstruction;
 import org.mockito.invocation.MockHandler;
@@ -12,15 +14,6 @@ import org.mockito.mock.MockCreationSettings;
 import java.util.Optional;
 import java.util.function.Function;
 
-/**
- * ByteBuddy MockMaker.
- *
- * This class will serve as the programmatic entry point to all mockito internal MockMakers.
- * Currently the default and only mock maker is the subclassing engine, but with enough feedback we can later
- * promote the inlining engine for features like final class/methods mocks.
- *
- * The programmatic API could look like {@code mock(Final.class, withSettings().finalClasses())}.
- */
 public class ByteBuddyMockMaker implements ClassCreatingMockMaker {
     private ClassCreatingMockMaker defaultByteBuddyMockMaker = new SubclassByteBuddyMockMaker();
 
@@ -40,7 +33,7 @@ public class ByteBuddyMockMaker implements ClassCreatingMockMaker {
         return defaultByteBuddyMockMaker.createMockType(creationSettings);
     }
 
-    @Override
+    @Override@Nullable
     public MockHandler getHandler(Object mock) {
         return defaultByteBuddyMockMaker.getHandler(mock);
     }

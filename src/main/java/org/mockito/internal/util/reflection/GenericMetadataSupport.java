@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.util.reflection;
 
+import javax.annotation.Nullable;
+
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -25,47 +27,6 @@ import java.util.Set;
 import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.util.Checks;
 
-/**
- * This class can retrieve generic meta-data that the compiler stores on classes
- * and accessible members.
- *
- * <p>
- * The main idea of this code is to create a Map that will help to resolve return types.
- * In order to actually work with nested generics, this map will have to be passed along new instances
- * as a type context.
- * </p>
- *
- * <p>
- * Hence :
- * <ul>
- * <li>A new instance representing the metadata is created using the {@link #inferFrom(Type)} method from a real
- * <code>Class</code> or from a <code>ParameterizedType</code>, other types are not yet supported.</li>
- *
- * <li>Then from this metadata, we can extract meta-data for a generic return type of a method, using
- * {@link #resolveGenericReturnType(Method)}.</li>
- * </ul>
- * </p>
- *
- * <p>
- * For now this code support the following kind of generic declarations :
- * <pre class="code"><code class="java">
- * interface GenericsNest&lt;K extends Comparable&lt;K&gt; & Cloneable&gt; extends Map&lt;K, Set&lt;Number&gt;&gt; {
- *     Set&lt;Number&gt; remove(Object key); // override with fixed ParameterizedType
- *     List&lt;? super Integer&gt; returning_wildcard_with_class_lower_bound();
- *     List&lt;? super K&gt; returning_wildcard_with_typeVar_lower_bound();
- *     List&lt;? extends K&gt; returning_wildcard_with_typeVar_upper_bound();
- *     K returningK();
- *     &lt;O extends K&gt; List&lt;O&gt; paramType_with_type_params();
- *     &lt;S, T extends S&gt; T two_type_params();
- *     &lt;O extends K&gt; O typeVar_with_type_params();
- *     Number returningNonGeneric();
- * }
- * </code></pre>
- *
- * @see #inferFrom(Type)
- * @see #resolveGenericReturnType(Method)
- * @see org.mockito.internal.stubbing.defaultanswers.ReturnsDeepStubs
- */
 public abstract class GenericMetadataSupport {
 
     // public static MockitoLogger logger = new ConsoleMockitoLogger();
@@ -99,7 +60,7 @@ public abstract class GenericMetadataSupport {
         }
     }
 
-    protected Class<?> extractRawTypeOf(Type type) {
+    protected Class<?> extractRawTypeOf(@Nullable Type type) {
         if (type instanceof Class) {
             return (Class<?>) type;
         }
@@ -120,7 +81,7 @@ public abstract class GenericMetadataSupport {
         throw new MockitoException("Raw extraction not supported for : '" + type + "'");
     }
 
-    protected void registerTypeVariablesOn(Type classType) {
+    protected void registerTypeVariablesOn(@Nullable Type classType) {
         if (!(classType instanceof ParameterizedType)) {
             return;
         }
@@ -261,6 +222,7 @@ public abstract class GenericMetadataSupport {
         return actualTypeArguments;
     }
 
+    @Nullable
     protected Type getActualTypeArgumentFor(TypeVariable<?> typeParameter) {
         Type type = this.contextualActualTypeParameters.get(typeParameter);
         if (type instanceof TypeVariable) {
@@ -445,7 +407,11 @@ public abstract class GenericMetadataSupport {
     private static class TypeVariableReturnType extends GenericMetadataSupport {
         private final TypeVariable<?> typeVariable;
         private final TypeVariable<?>[] typeParameters;
+
+        @Nullable
         private Class<?> rawType;
+
+        @Nullable
         private List<Type> extraInterfaces;
 
         public TypeVariableReturnType(
@@ -517,7 +483,8 @@ public abstract class GenericMetadataSupport {
             return rawExtraInterfaces.toArray(new Class[rawExtraInterfaces.size()]);
         }
 
-        private Type extractActualBoundedTypeOf(Type type) {
+        @Nullable
+        private Type extractActualBoundedTypeOf(@Nullable Type type) {
             if (type instanceof TypeVariable) {
                 /*
                 If type is a TypeVariable, then it is needed to gather data elsewhere. Usually TypeVariables are declared
