@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.junit;
 
+import org.mockito.Initializer;
+
 import org.junit.runners.model.Statement;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -60,6 +62,7 @@ class JUnitSessionStore {
         };
     }
 
+    @Initializer
     void setStrictness(Strictness strictness) {
         this.strictness = strictness;
         // session is null when this method is called during initialization of

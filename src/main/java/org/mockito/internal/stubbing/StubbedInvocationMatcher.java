@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.stubbing;
 
+import org.mockito.Initializer;
+
 import java.io.Serializable;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -44,6 +46,7 @@ public class StubbedInvocationMatcher extends InvocationMatcher implements Seria
         answers.add(answer);
     }
 
+    @Initializer
     public void markStubUsed(DescribedInvocation usedAt) {
         this.usedAt = usedAt;
     }

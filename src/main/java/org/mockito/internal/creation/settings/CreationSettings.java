@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.creation.settings;
 
+import org.mockito.Initializer;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -50,7 +52,7 @@ public class CreationSettings<T> implements MockCreationSettings<T>, Serializabl
 
     public CreationSettings() {}
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")@Initializer
     public CreationSettings(CreationSettings copy) {
         // TODO can we have a reflection test here? We had a couple of bugs here in the past.
         this.typeToMock = copy.typeToMock;

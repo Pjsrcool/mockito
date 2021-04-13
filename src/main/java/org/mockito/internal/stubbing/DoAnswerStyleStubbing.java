@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.stubbing;
 
+import org.mockito.Initializer;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +13,12 @@ import java.util.List;
 import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 
-/**
- * Holds answers declared using 'doAnswer' stubbing style.
- */
 class DoAnswerStyleStubbing implements Serializable {
 
     private final List<Answer<?>> answers = new ArrayList<Answer<?>>();
     private Strictness stubbingStrictness;
 
+    @Initializer
     void setAnswers(List<Answer<?>> answers, Strictness stubbingStrictness) {
         this.stubbingStrictness = stubbingStrictness;
         this.answers.addAll(answers);

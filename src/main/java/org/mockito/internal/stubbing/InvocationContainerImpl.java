@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.stubbing;
 
+import org.mockito.Initializer;
+
 import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
 
 import java.io.Serializable;
@@ -43,6 +45,7 @@ public class InvocationContainerImpl implements InvocationContainer, Serializabl
         this.doAnswerStyleStubbing = new DoAnswerStyleStubbing();
     }
 
+    @Initializer
     public void setInvocationForPotentialStubbing(MatchableInvocation invocation) {
         registeredInvocations.add(invocation.getInvocation());
         this.invocationForStubbing = invocation;

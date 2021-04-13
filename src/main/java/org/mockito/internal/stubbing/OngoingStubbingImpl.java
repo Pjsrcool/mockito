@@ -4,6 +4,8 @@
  */
 package org.mockito.internal.stubbing;
 
+import org.mockito.Initializer;
+
 import static org.mockito.internal.exceptions.Reporter.incorrectUseOfApi;
 
 import java.util.List;
@@ -38,6 +40,7 @@ public class OngoingStubbingImpl<T> extends BaseStubbing<T> {
         return invocationContainer.getInvocations();
     }
 
+    @Initializer
     public void setStrictness(Strictness strictness) {
         this.strictness = strictness;
     }
