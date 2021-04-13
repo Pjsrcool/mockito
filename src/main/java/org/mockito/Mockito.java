@@ -4,7 +4,7 @@
  */
 package org.mockito;
 
-import main.java.org.mockito.Initializer;
+import org.mockito.Initializer;
 import org.mockito.exceptions.misusing.PotentialStubbingProblem;
 import org.mockito.exceptions.misusing.UnnecessaryStubbingException;
 import org.mockito.internal.InternalMockHandler;
