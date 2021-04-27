@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.annotation.Nullable;
 
 /**
  * <p>
@@ -22,8 +23,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * This class does not implement the {@link java.util.Map} interface because this implementation is incompatible
  * with the map contract. While iterating over a map's entries, any key that has not passed iteration is referenced non-weakly.
  */
-public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
-        implements Runnable, Iterable<Map.Entry<K, V>> {
+public class WeakConcurrentMap<K, V> extends ReferenceQueue<K> implements Runnable, Iterable<Map.Entry<K, V>> {
 
     private static final AtomicLong ID = new AtomicLong();
 
@@ -53,7 +53,8 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
      */
     @SuppressWarnings("CollectionIncompatibleType")
     public V get(K key) {
-        if (key == null) throw new NullPointerException();
+        if (key == null)
+            throw new NullPointerException();
         V value = target.get(new LatentKey<K>(key));
         if (value == null) {
             value = defaultValue(key);
@@ -73,7 +74,8 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
      */
     @SuppressWarnings("CollectionIncompatibleType")
     public boolean containsKey(K key) {
-        if (key == null) throw new NullPointerException();
+        if (key == null)
+            throw new NullPointerException();
         return target.containsKey(new LatentKey<K>(key));
     }
 
@@ -83,7 +85,8 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
      * @return The previous entry or {@code null} if it does not exist.
      */
     public V put(K key, V value) {
-        if (key == null || value == null) throw new NullPointerException();
+        if (key == null || value == null)
+            throw new NullPointerException();
         return target.put(new WeakKey<K>(key, this), value);
     }
 
@@ -93,7 +96,8 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
      */
     @SuppressWarnings("CollectionIncompatibleType")
     public V remove(K key) {
-        if (key == null) throw new NullPointerException();
+        if (key == null)
+            throw new NullPointerException();
         return target.remove(new LatentKey<K>(key));
     }
 
@@ -111,6 +115,7 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
      * @param key The key for which to create a default value.
      * @return The default value for a key without value or {@code null} for not defining a default value.
      */
+    @Nullable()
     protected V defaultValue(K key) {
         return null;
     }
@@ -187,7 +192,6 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
      *
      * Therefore, we can guarantee that there is no memory leak.
      */
-
     private static class WeakKey<T> extends WeakReference<T> {
 
         private final int hashCode;
@@ -217,7 +221,6 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
      * hash code and equals as the WeakKey implementation. At the same time, the latent key implementation does not extend WeakReference
      * and avoids the overhead that a weak reference implies.
      */
-
     private static class LatentKey<T> {
 
         final T key;
@@ -294,8 +297,10 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
 
         private final Iterator<Map.Entry<WeakKey<K>, V>> iterator;
 
+        @Nullable()
         private Map.Entry<WeakKey<K>, V> nextEntry;
 
+        @Nullable()
         private K nextKey;
 
         private EntryIterator(Iterator<Map.Entry<WeakKey<K>, V>> iterator) {
@@ -344,7 +349,7 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
 
         final Map.Entry<WeakKey<K>, V> entry;
 
-        private SimpleEntry(K key, Map.Entry<WeakKey<K>, V> entry) {
+        private SimpleEntry(K key, @Nullable() Map.Entry<WeakKey<K>, V> entry) {
             this.key = key;
             this.entry = entry;
         }
@@ -361,7 +366,8 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
 
         @Override
         public V setValue(V value) {
-            if (value == null) throw new NullPointerException();
+            if (value == null)
+                throw new NullPointerException();
             return entry.setValue(value);
         }
     }

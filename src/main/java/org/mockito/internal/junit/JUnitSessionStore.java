@@ -11,11 +11,14 @@ import org.mockito.MockitoSession;
 import org.mockito.internal.session.MockitoSessionLoggerAdapter;
 import org.mockito.plugins.MockitoLogger;
 import org.mockito.quality.Strictness;
+import org.mockito.Initializer;
 
 class JUnitSessionStore {
 
     private final MockitoLogger logger;
+
     private MockitoSession session;
+
     protected Strictness strictness;
 
     JUnitSessionStore(MockitoLogger logger, Strictness strictness) {
@@ -25,16 +28,11 @@ class JUnitSessionStore {
 
     Statement createStatement(final Statement base, final String methodName, final Object target) {
         return new Statement() {
+
             public void evaluate() throws Throwable {
                 AutoCloseable closeable;
                 if (session == null) {
-                    session =
-                            Mockito.mockitoSession()
-                                    .name(methodName)
-                                    .strictness(strictness)
-                                    .logger(new MockitoSessionLoggerAdapter(logger))
-                                    .initMocks(target)
-                                    .startMocking();
+                    session = Mockito.mockitoSession().name(methodName).strictness(strictness).logger(new MockitoSessionLoggerAdapter(logger)).initMocks(target).startMocking();
                     closeable = null;
                 } else {
                     closeable = MockitoAnnotations.openMocks(target);
@@ -60,6 +58,7 @@ class JUnitSessionStore {
         };
     }
 
+    @Initializer()
     void setStrictness(Strictness strictness) {
         this.strictness = strictness;
         // session is null when this method is called during initialization of

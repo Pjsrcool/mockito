@@ -5,7 +5,6 @@
 package org.mockito.internal.framework;
 
 import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
-
 import org.mockito.MockitoFramework;
 import org.mockito.internal.configuration.plugins.Plugins;
 import org.mockito.internal.invocation.DefaultInvocationFactory;
@@ -15,6 +14,7 @@ import org.mockito.listeners.MockitoListener;
 import org.mockito.plugins.InlineMockMaker;
 import org.mockito.plugins.MockMaker;
 import org.mockito.plugins.MockitoPlugins;
+import javax.annotation.Nullable;
 
 public class DefaultMockitoFramework implements MockitoFramework {
 
@@ -40,6 +40,7 @@ public class DefaultMockitoFramework implements MockitoFramework {
         return new DefaultInvocationFactory();
     }
 
+    @Nullable()
     private InlineMockMaker getInlineMockMaker() {
         MockMaker mockMaker = Plugins.getMockMaker();
         return (mockMaker instanceof InlineMockMaker) ? (InlineMockMaker) mockMaker : null;

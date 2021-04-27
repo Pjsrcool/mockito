@@ -5,11 +5,12 @@
 package org.mockito.internal.configuration.plugins;
 
 import java.io.InputStream;
-
 import org.mockito.internal.util.io.IOUtil;
+import javax.annotation.Nullable;
 
 class PluginFileReader {
 
+    @Nullable()
     String readPluginClass(InputStream input) {
         for (String line : IOUtil.readLines(input)) {
             String stripped = stripCommentAndWhitespace(line);

@@ -5,6 +5,7 @@
 package org.mockito.stubbing;
 
 import org.mockito.invocation.InvocationOnMock;
+import javax.annotation.Nullable;
 
 /**
  * Generic interface to be used for configuring mock's answer.
@@ -29,6 +30,7 @@ import org.mockito.invocation.InvocationOnMock;
  * @param <T> the type to return.
  */
 public interface Answer<T> {
+
     /**
      * @param invocation the invocation on the mock.
      *

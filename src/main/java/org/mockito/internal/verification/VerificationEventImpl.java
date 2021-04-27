@@ -7,15 +7,19 @@ package org.mockito.internal.verification;
 import org.mockito.internal.verification.api.VerificationData;
 import org.mockito.verification.VerificationEvent;
 import org.mockito.verification.VerificationMode;
+import javax.annotation.Nullable;
 
 public class VerificationEventImpl implements VerificationEvent {
+
     private final Object mock;
+
     private final VerificationMode mode;
+
     private final VerificationData data;
+
     private final Throwable cause;
 
-    public VerificationEventImpl(
-            Object mock, VerificationMode mode, VerificationData data, Throwable cause) {
+    public VerificationEventImpl(Object mock, VerificationMode mode, VerificationData data, @Nullable() Throwable cause) {
         this.mock = mock;
         this.mode = mode;
         this.data = data;

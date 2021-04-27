@@ -5,24 +5,26 @@
 package org.mockito.internal.progress;
 
 import java.util.Set;
-
 import org.mockito.listeners.MockitoListener;
 import org.mockito.listeners.VerificationListener;
 import org.mockito.mock.MockCreationSettings;
 import org.mockito.stubbing.OngoingStubbing;
 import org.mockito.verification.VerificationMode;
 import org.mockito.verification.VerificationStrategy;
+import javax.annotation.Nullable;
 
 public interface MockingProgress {
 
     void reportOngoingStubbing(OngoingStubbing<?> ongoingStubbing);
 
+    @Nullable()
     OngoingStubbing<?> pullOngoingStubbing();
 
     Set<VerificationListener> verificationListeners();
 
     void verificationStarted(VerificationMode verificationMode);
 
+    @Nullable()
     VerificationMode pullVerificationMode();
 
     void stubbingStarted();

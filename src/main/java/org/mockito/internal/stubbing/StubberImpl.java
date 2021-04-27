@@ -10,10 +10,8 @@ import static org.mockito.internal.exceptions.Reporter.nullPassedToWhenMethod;
 import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
 import static org.mockito.internal.stubbing.answers.DoesNothing.doesNothing;
 import static org.mockito.internal.util.MockUtil.isMock;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import org.mockito.internal.stubbing.answers.CallsRealMethods;
 import org.mockito.internal.stubbing.answers.Returns;
 import org.mockito.internal.stubbing.answers.ThrowsException;
@@ -22,12 +20,13 @@ import org.mockito.internal.util.MockUtil;
 import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Stubber;
+import javax.annotation.Nullable;
 
 public class StubberImpl implements Stubber {
 
     private final Strictness strictness;
 
-    public StubberImpl(Strictness strictness) {
+    public StubberImpl(@Nullable() Strictness strictness) {
         this.strictness = strictness;
     }
 
@@ -39,14 +38,11 @@ public class StubberImpl implements Stubber {
             mockingProgress().reset();
             throw nullPassedToWhenMethod();
         }
-
         if (!isMock(mock)) {
             mockingProgress().reset();
             throw notAMockPassedToWhenMethod();
         }
-
         MockUtil.getInvocationContainer(mock).setAnswersForStubbing(answers, strictness);
-
         return mock;
     }
 
@@ -93,15 +89,12 @@ public class StubberImpl implements Stubber {
     }
 
     @Override
-    public Stubber doThrow(
-            Class<? extends Throwable> toBeThrown, Class<? extends Throwable>... nextToBeThrown) {
+    public Stubber doThrow(Class<? extends Throwable> toBeThrown, Class<? extends Throwable>... nextToBeThrown) {
         Stubber stubber = doThrow(toBeThrown);
-
         if (nextToBeThrown == null) {
             mockingProgress().reset();
             throw notAnException();
         }
-
         for (Class<? extends Throwable> next : nextToBeThrown) {
             stubber = stubber.doThrow(next);
         }

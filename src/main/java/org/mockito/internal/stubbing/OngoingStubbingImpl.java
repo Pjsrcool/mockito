@@ -5,17 +5,17 @@
 package org.mockito.internal.stubbing;
 
 import static org.mockito.internal.exceptions.Reporter.incorrectUseOfApi;
-
 import java.util.List;
-
 import org.mockito.invocation.Invocation;
 import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.OngoingStubbing;
+import org.mockito.Initializer;
 
 public class OngoingStubbingImpl<T> extends BaseStubbing<T> {
 
     private final InvocationContainerImpl invocationContainer;
+
     private Strictness strictness;
 
     public OngoingStubbingImpl(InvocationContainerImpl invocationContainer) {
@@ -28,7 +28,6 @@ public class OngoingStubbingImpl<T> extends BaseStubbing<T> {
         if (!invocationContainer.hasInvocationForPotentialStubbing()) {
             throw incorrectUseOfApi();
         }
-
         invocationContainer.addAnswer(answer, strictness);
         return new ConsecutiveStubbing<T>(invocationContainer);
     }
@@ -38,6 +37,7 @@ public class OngoingStubbingImpl<T> extends BaseStubbing<T> {
         return invocationContainer.getInvocations();
     }
 
+    @Initializer()
     public void setStrictness(Strictness strictness) {
         this.strictness = strictness;
     }

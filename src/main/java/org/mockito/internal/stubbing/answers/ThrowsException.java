@@ -5,9 +5,9 @@
 package org.mockito.internal.stubbing.answers;
 
 import java.io.Serializable;
-
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.ValidableAnswer;
+import javax.annotation.Nullable;
 
 /**
  * An answer that always throws the same throwable.
@@ -15,6 +15,7 @@ import org.mockito.stubbing.ValidableAnswer;
 public class ThrowsException extends AbstractThrowsException implements Serializable {
 
     private static final long serialVersionUID = 1128820328555183980L;
+
     private final Throwable throwable;
 
     /**
@@ -22,7 +23,7 @@ public class ThrowsException extends AbstractThrowsException implements Serializ
      * {@linkplain ValidableAnswer#validateFor(InvocationOnMock) answer validation}
      * will fail.
      */
-    public ThrowsException(Throwable throwable) {
+    public ThrowsException(@Nullable() Throwable throwable) {
         this.throwable = throwable;
     }
 

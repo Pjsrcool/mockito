@@ -6,11 +6,9 @@ package org.mockito.internal.invocation;
 
 import static org.mockito.internal.exceptions.Reporter.cannotCallAbstractRealMethod;
 import static org.mockito.internal.invocation.ArgumentsProcessor.argumentsToMatchers;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-
 import org.mockito.ArgumentMatcher;
 import org.mockito.internal.exceptions.VerificationAwareInvocation;
 import org.mockito.internal.invocation.mockref.MockReference;
@@ -18,14 +16,18 @@ import org.mockito.internal.reporting.PrintSettings;
 import org.mockito.invocation.Invocation;
 import org.mockito.invocation.Location;
 import org.mockito.invocation.StubInfo;
+import javax.annotation.Nullable;
 
 public class InterceptedInvocation implements Invocation, VerificationAwareInvocation {
 
     private static final long serialVersionUID = 475027563923510472L;
 
     private final MockReference<Object> mockRef;
+
     private final MockitoMethod mockitoMethod;
+
     private final Object[] arguments, rawArguments;
+
     private final RealMethod realMethod;
 
     private final int sequenceNumber;
@@ -33,16 +35,13 @@ public class InterceptedInvocation implements Invocation, VerificationAwareInvoc
     private final Location location;
 
     private boolean verified;
+
     private boolean isIgnoredForVerification;
+
+    @Nullable()
     private StubInfo stubInfo;
 
-    public InterceptedInvocation(
-            MockReference<Object> mockRef,
-            MockitoMethod mockitoMethod,
-            Object[] arguments,
-            RealMethod realMethod,
-            Location location,
-            int sequenceNumber) {
+    public InterceptedInvocation(MockReference<Object> mockRef, MockitoMethod mockitoMethod, Object[] arguments, RealMethod realMethod, Location location, int sequenceNumber) {
         this.mockRef = mockRef;
         this.mockitoMethod = mockitoMethod;
         this.arguments = ArgumentsProcessor.expandArgs(mockitoMethod, arguments);
@@ -83,6 +82,7 @@ public class InterceptedInvocation implements Invocation, VerificationAwareInvoc
     }
 
     @Override
+    @Nullable()
     public StubInfo stubInfo() {
         return stubInfo;
     }
@@ -178,9 +178,7 @@ public class InterceptedInvocation implements Invocation, VerificationAwareInvoc
             return false;
         }
         InterceptedInvocation other = (InterceptedInvocation) o;
-        return this.mockRef.get().equals(other.mockRef.get())
-                && this.mockitoMethod.equals(other.mockitoMethod)
-                && this.equalArguments(other.arguments);
+        return this.mockRef.get().equals(other.mockRef.get()) && this.mockitoMethod.equals(other.mockitoMethod) && this.equalArguments(other.arguments);
     }
 
     private boolean equalArguments(Object[] arguments) {
@@ -191,14 +189,14 @@ public class InterceptedInvocation implements Invocation, VerificationAwareInvoc
         return new PrintSettings().print(getArgumentsAsMatchers(), this);
     }
 
-    public static final RealMethod NO_OP =
-            new RealMethod() {
-                public boolean isInvokable() {
-                    return false;
-                }
+    public static final RealMethod NO_OP = new RealMethod() {
 
-                public Object invoke() throws Throwable {
-                    return null;
-                }
-            };
+        public boolean isInvokable() {
+            return false;
+        }
+
+        public Object invoke() throws Throwable {
+            return null;
+        }
+    };
 }
