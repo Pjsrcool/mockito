@@ -24,7 +24,7 @@ import java.util.Set;
 
 import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.util.Checks;
-
+import org.mockito.Initializer;
 /**
  * This class can retrieve generic meta-data that the compiler stores on classes
  * and accessible members.
@@ -66,6 +66,7 @@ import org.mockito.internal.util.Checks;
  * @see #resolveGenericReturnType(Method)
  * @see org.mockito.internal.stubbing.defaultanswers.ReturnsDeepStubs
  */
+
 public abstract class GenericMetadataSupport {
 
     // public static MockitoLogger logger = new ConsoleMockitoLogger();
@@ -473,6 +474,7 @@ public abstract class GenericMetadataSupport {
         }
 
         @Override
+        @Initializer
         public Class<?> rawType() {
             if (rawType == null) {
                 rawType = extractRawTypeOf(typeVariable);
@@ -481,6 +483,7 @@ public abstract class GenericMetadataSupport {
         }
 
         @Override
+        @Initializer
         public List<Type> extraInterfaces() {
             if (extraInterfaces != null) {
                 return extraInterfaces;

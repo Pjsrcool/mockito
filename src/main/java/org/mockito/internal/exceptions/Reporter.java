@@ -36,7 +36,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.invocation.Location;
 import org.mockito.listeners.InvocationListener;
 import org.mockito.mock.SerializableMode;
-
+import javax.annotation.Nullable;
 /**
  * Reports verification and misusing errors.
  * <p>
@@ -48,6 +48,7 @@ import org.mockito.mock.SerializableMode;
  * Generally, exception messages are full of line breaks to make them easy to
  * read (xunit plugins take only fraction of screen on modern IDEs).
  */
+
 public class Reporter {
 
     private static final String NON_PUBLIC_PARENT =
@@ -746,7 +747,7 @@ public class Reporter {
     }
 
     public static MockitoException cannotInitializeForInjectMocksAnnotation(
-            String fieldName, String causeMessage) {
+            String fieldName, @Nullable String causeMessage) {
         return new MockitoException(
                 join(
                         "Cannot instantiate @InjectMocks field named '"
@@ -826,6 +827,7 @@ public class Reporter {
                 details);
     }
 
+    @Nullable
     private static String exceptionCauseMessageIfAvailable(Exception details) {
         if (details.getCause() == null) {
             return details.getMessage();
@@ -1019,7 +1021,7 @@ public class Reporter {
     }
 
     public static UnnecessaryStubbingException formatUnncessaryStubbingException(
-            Class<?> testClass, Collection<Invocation> unnecessaryStubbings) {
+            @Nullable Class<?> testClass, Collection<Invocation> unnecessaryStubbings) {
         StringBuilder stubbings = new StringBuilder();
         int count = 1;
         for (Invocation u : unnecessaryStubbings) {

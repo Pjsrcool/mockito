@@ -15,6 +15,7 @@ import org.mockito.invocation.MatchableInvocation;
 import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Stubbing;
+import org.mockito.Initializer;
 
 @SuppressWarnings("unchecked")
 public class StubbedInvocationMatcher extends InvocationMatcher implements Serializable, Stubbing {
@@ -44,6 +45,7 @@ public class StubbedInvocationMatcher extends InvocationMatcher implements Seria
         answers.add(answer);
     }
 
+    @Initializer
     public void markStubUsed(DescribedInvocation usedAt) {
         this.usedAt = usedAt;
     }
