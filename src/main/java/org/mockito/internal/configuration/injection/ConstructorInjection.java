@@ -16,7 +16,7 @@ import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.util.reflection.FieldInitializationReport;
 import org.mockito.internal.util.reflection.FieldInitializer;
 import org.mockito.internal.util.reflection.FieldInitializer.ConstructorArgumentResolver;
-
+import javax.annotation.Nullable;
 /**
  * Injection strategy based on constructor.
  *
@@ -35,6 +35,7 @@ import org.mockito.internal.util.reflection.FieldInitializer.ConstructorArgument
  * If not possible the algorithm abandon resolution.
  * </p>
  */
+
 public class ConstructorInjection extends MockInjectionStrategy {
 
     public ConstructorInjection() {}
@@ -75,6 +76,7 @@ public class ConstructorInjection extends MockInjectionStrategy {
             return argumentInstances.toArray();
         }
 
+        @Nullable
         private Object objectThatIsAssignableFrom(Class<?> argType) {
             for (Object object : objects) {
                 if (argType.isAssignableFrom(object.getClass())) return object;

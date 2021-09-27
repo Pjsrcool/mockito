@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.mockito.invocation.Invocation;
 import org.mockito.invocation.MatchableInvocation;
+import javax.annotation.Nullable;
 
 public class VerificationDataInOrderImpl implements VerificationDataInOrder {
 
@@ -16,7 +17,7 @@ public class VerificationDataInOrderImpl implements VerificationDataInOrder {
     private final MatchableInvocation wanted;
 
     public VerificationDataInOrderImpl(
-            InOrderContext inOrder, List<Invocation> allInvocations, MatchableInvocation wanted) {
+            InOrderContext inOrder, List<Invocation> allInvocations, @Nullable MatchableInvocation wanted) {
         this.inOrder = inOrder;
         this.allInvocations = allInvocations;
         this.wanted = wanted;

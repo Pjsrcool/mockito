@@ -14,7 +14,7 @@ import org.mockito.internal.debugging.LocationImpl;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.invocation.Location;
 import org.mockito.stubbing.Answer;
-
+import javax.annotation.Nullable;
 /**
  * Optional Answer that can be used with
  * {@link Mockito#mock(Class, Answer)}
@@ -33,6 +33,7 @@ import org.mockito.stubbing.Answer;
  * ReturnsSmartNulls will be probably the default return values strategy in
  * Mockito 2.1.0
  */
+
 public class ReturnsSmartNulls implements Answer<Object>, Serializable {
 
     private static final long serialVersionUID = 7618312406617949441L;
@@ -40,6 +41,7 @@ public class ReturnsSmartNulls implements Answer<Object>, Serializable {
     private final Answer<Object> delegate = new ReturnsMoreEmptyValues();
 
     @Override
+    @Nullable
     public Object answer(final InvocationOnMock invocation) throws Throwable {
         Object defaultReturnValue = delegate.answer(invocation);
 
