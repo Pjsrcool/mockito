@@ -10,7 +10,7 @@ import java.lang.reflect.Array;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-
+import javax.annotation.Nullable;
 /**
  * It's likely this implementation will be used by default by every Mockito 4.0.0 mock.
  * <p>
@@ -44,6 +44,7 @@ import org.mockito.stubbing.Answer;
  * </li>
  * </ul>
  */
+
 public class ReturnsMoreEmptyValues implements Answer<Object>, Serializable {
 
     private static final long serialVersionUID = -2816745041482698471L;
@@ -52,6 +53,7 @@ public class ReturnsMoreEmptyValues implements Answer<Object>, Serializable {
     /* (non-Javadoc)
      * @see org.mockito.stubbing.Answer#answer(org.mockito.invocation.InvocationOnMock)
      */
+    @Nullable
     public Object answer(InvocationOnMock invocation) throws Throwable {
         Object ret = delegate.answer(invocation);
         if (ret != null) {
@@ -62,6 +64,7 @@ public class ReturnsMoreEmptyValues implements Answer<Object>, Serializable {
         return returnValueFor(returnType);
     }
 
+    @Nullable
     Object returnValueFor(Class<?> type) {
         if (type == String.class) {
             return "";

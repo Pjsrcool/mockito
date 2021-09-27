@@ -9,7 +9,7 @@ import static org.mockito.internal.util.Primitives.defaultValue;
 import java.util.List;
 
 import org.mockito.internal.matchers.CapturingMatcher;
-
+import javax.annotation.Nullable;
 /**
  * Use it to capture argument values for further assertions.
  *
@@ -59,6 +59,7 @@ import org.mockito.internal.matchers.CapturingMatcher;
  * @see Captor
  * @since 1.8.0
  */
+
 public class ArgumentCaptor<T> {
 
     private final CapturingMatcher<T> capturingMatcher = new CapturingMatcher<T>();
@@ -78,6 +79,7 @@ public class ArgumentCaptor<T> {
      *
      * @return null or default values
      */
+    @Nullable
     public T capture() {
         Mockito.argThat(capturingMatcher);
         return defaultValue(clazz);

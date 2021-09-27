@@ -25,6 +25,7 @@ import org.mockito.internal.invocation.RealMethod;
 import org.mockito.invocation.Location;
 import org.mockito.invocation.MockHandler;
 import org.mockito.mock.MockCreationSettings;
+import javax.annotation.Nullable;
 
 public class MockMethodInterceptor implements Serializable {
 
@@ -42,11 +43,13 @@ public class MockMethodInterceptor implements Serializable {
         serializationSupport = new ByteBuddyCrossClassLoaderSerializationSupport();
     }
 
+    @Nullable
     Object doIntercept(Object mock, Method invokedMethod, Object[] arguments, RealMethod realMethod)
             throws Throwable {
         return doIntercept(mock, invokedMethod, arguments, realMethod, new LocationImpl());
     }
 
+    @Nullable
     Object doIntercept(
             Object mock,
             Method invokedMethod,
@@ -100,6 +103,7 @@ public class MockMethodInterceptor implements Serializable {
         @SuppressWarnings("unused")
         @RuntimeType
         @BindingPriority(BindingPriority.DEFAULT * 2)
+        @Nullable
         public static Object interceptSuperCallable(
                 @This Object mock,
                 @FieldValue("mockitoInterceptor") MockMethodInterceptor interceptor,
@@ -116,6 +120,7 @@ public class MockMethodInterceptor implements Serializable {
 
         @SuppressWarnings("unused")
         @RuntimeType
+        @Nullable
         public static Object interceptAbstract(
                 @This Object mock,
                 @FieldValue("mockitoInterceptor") MockMethodInterceptor interceptor,

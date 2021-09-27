@@ -11,12 +11,13 @@ import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.configuration.plugins.Plugins;
 import org.mockito.internal.util.Checks;
 import org.mockito.plugins.MemberAccessor;
-
+import org.mockito.Initializer;
 /**
  * Represents an accessible instance field.
  *
  * Contains the instance reference on which the field can be read and write.
  */
+
 public class InstanceField {
     private final Field field;
     private final Object instance;
@@ -106,6 +107,7 @@ public class InstanceField {
         return field;
     }
 
+    @Initializer
     private FieldReader reader() {
         if (fieldReader == null) {
             fieldReader = new FieldReader(instance, field);
