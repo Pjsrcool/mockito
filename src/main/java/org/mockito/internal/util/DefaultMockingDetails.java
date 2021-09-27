@@ -14,11 +14,12 @@ import org.mockito.invocation.Invocation;
 import org.mockito.invocation.MockHandler;
 import org.mockito.mock.MockCreationSettings;
 import org.mockito.stubbing.Stubbing;
-
+import javax.annotation.Nullable;
 /**
  * Class to inspect any object, and identify whether a particular object is either a mock or a spy.  This is
  * a wrapper for {@link org.mockito.internal.util.MockUtil}.
  */
+
 public class DefaultMockingDetails implements MockingDetails {
 
     private final Object toInspect;

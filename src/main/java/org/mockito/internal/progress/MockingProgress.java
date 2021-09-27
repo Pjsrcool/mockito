@@ -12,6 +12,7 @@ import org.mockito.mock.MockCreationSettings;
 import org.mockito.stubbing.OngoingStubbing;
 import org.mockito.verification.VerificationMode;
 import org.mockito.verification.VerificationStrategy;
+import javax.annotation.Nullable;
 
 public interface MockingProgress {
 
@@ -23,6 +24,7 @@ public interface MockingProgress {
 
     void verificationStarted(VerificationMode verificationMode);
 
+    @Nullable
     VerificationMode pullVerificationMode();
 
     void stubbingStarted();

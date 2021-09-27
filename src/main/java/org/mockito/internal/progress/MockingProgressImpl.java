@@ -25,14 +25,19 @@ import org.mockito.mock.MockCreationSettings;
 import org.mockito.stubbing.OngoingStubbing;
 import org.mockito.verification.VerificationMode;
 import org.mockito.verification.VerificationStrategy;
+import org.mockito.Initializer;
+import javax.annotation.Nullable;
 
 @SuppressWarnings("unchecked")
 public class MockingProgressImpl implements MockingProgress {
 
     private final ArgumentMatcherStorage argumentMatcherStorage = new ArgumentMatcherStorageImpl();
 
+    @Nullable
     private OngoingStubbing<?> ongoingStubbing;
+    @Nullable
     private Localized<VerificationMode> verificationMode;
+    @Nullable
     private Location stubbingInProgress = null;
     private VerificationStrategy verificationStrategy;
     private final Set<MockitoListener> listeners = new LinkedHashSet<MockitoListener>();
@@ -49,10 +54,12 @@ public class MockingProgressImpl implements MockingProgress {
         };
     }
 
+    @Initializer
     public void reportOngoingStubbing(OngoingStubbing ongoingStubbing) {
         this.ongoingStubbing = ongoingStubbing;
     }
 
+    @Nullable
     public OngoingStubbing<?> pullOngoingStubbing() {
         OngoingStubbing<?> temp = ongoingStubbing;
         ongoingStubbing = null;
@@ -73,6 +80,7 @@ public class MockingProgressImpl implements MockingProgress {
         return verificationListeners;
     }
 
+    @Initializer
     public void verificationStarted(VerificationMode verify) {
         validateState();
         resetOngoingStubbing();
@@ -86,6 +94,7 @@ public class MockingProgressImpl implements MockingProgress {
         ongoingStubbing = null;
     }
 
+    @Nullable
     public VerificationMode pullVerificationMode() {
         if (verificationMode == null) {
             return null;
