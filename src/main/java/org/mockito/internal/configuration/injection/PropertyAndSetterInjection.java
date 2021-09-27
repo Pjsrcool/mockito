@@ -25,7 +25,7 @@ import org.mockito.internal.configuration.injection.filter.TypeBasedCandidateFil
 import org.mockito.internal.util.collections.ListUtil;
 import org.mockito.internal.util.reflection.FieldInitializationReport;
 import org.mockito.internal.util.reflection.FieldInitializer;
-
+import javax.annotation.Nullable;
 /**
  * Inject mocks using first setters then fields, if no setters available.
  *
@@ -60,6 +60,7 @@ import org.mockito.internal.util.reflection.FieldInitializer;
  * to create one using a no-arg constructor of the field type.
  * </p>
  */
+
 public class PropertyAndSetterInjection extends MockInjectionStrategy {
 
     private final MockCandidateFilter mockCandidateFilter =

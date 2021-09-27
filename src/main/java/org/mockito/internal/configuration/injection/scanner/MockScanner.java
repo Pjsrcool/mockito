@@ -13,10 +13,11 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.internal.util.MockUtil;
 import org.mockito.internal.util.reflection.FieldReader;
-
+import javax.annotation.Nullable;
 /**
  * Scan mocks, and prepare them if needed.
  */
+
 public class MockScanner {
     private final Object instance;
     private final Class<?> clazz;
@@ -64,6 +65,7 @@ public class MockScanner {
         return mocks;
     }
 
+    @Nullable
     private Object preparedMock(Object instance, Field field) {
         if (isAnnotatedByMockOrSpy(field)) {
             return instance;

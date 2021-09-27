@@ -13,11 +13,12 @@ import org.mockito.invocation.InvocationContainer;
 import org.mockito.invocation.MockHandler;
 import org.mockito.listeners.InvocationListener;
 import org.mockito.mock.MockCreationSettings;
-
+import javax.annotation.Nullable;
 /**
  * Handler, that call all listeners wanted for this mock, before delegating it
  * to the parameterized handler.
  */
+
 class InvocationNotifierHandler<T> implements MockHandler<T> {
 
     private final List<InvocationListener> invocationListeners;
@@ -28,6 +29,7 @@ class InvocationNotifierHandler<T> implements MockHandler<T> {
         this.invocationListeners = settings.getInvocationListeners();
     }
 
+    @Nullable
     public Object handle(Invocation invocation) throws Throwable {
         try {
             Object returnedValue = mockHandler.handle(invocation);
@@ -39,7 +41,7 @@ class InvocationNotifierHandler<T> implements MockHandler<T> {
         }
     }
 
-    private void notifyMethodCall(Invocation invocation, Object returnValue) {
+    private void notifyMethodCall(Invocation invocation, @Nullable Object returnValue) {
         for (InvocationListener listener : invocationListeners) {
             try {
                 listener.reportInvocation(
