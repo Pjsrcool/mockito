@@ -15,6 +15,8 @@ import org.mockito.invocation.MatchableInvocation;
 import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Stubbing;
+import org.mockito.Initializer;
+import javax.annotation.Nullable;
 
 @SuppressWarnings("unchecked")
 public class StubbedInvocationMatcher extends InvocationMatcher implements Serializable, Stubbing {
@@ -31,6 +33,7 @@ public class StubbedInvocationMatcher extends InvocationMatcher implements Seria
         this.answers.add(answer);
     }
 
+    @Nullable
     public Object answer(InvocationOnMock invocation) throws Throwable {
         // see ThreadsShareGenerouslyStubbedMockTest
         Answer a;
@@ -44,6 +47,7 @@ public class StubbedInvocationMatcher extends InvocationMatcher implements Seria
         answers.add(answer);
     }
 
+    @Initializer
     public void markStubUsed(DescribedInvocation usedAt) {
         this.usedAt = usedAt;
     }
