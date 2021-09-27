@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.internal.creation.MockSettingsImpl;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import javax.annotation.Nullable;
 
 public class ReturnsMocks implements Answer<Object>, Serializable {
 
@@ -17,6 +18,7 @@ public class ReturnsMocks implements Answer<Object>, Serializable {
     private final Answer<Object> delegate = new ReturnsMoreEmptyValues();
 
     @Override
+    @Nullable
     public Object answer(final InvocationOnMock invocation) throws Throwable {
         Object defaultReturnValue = delegate.answer(invocation);
 

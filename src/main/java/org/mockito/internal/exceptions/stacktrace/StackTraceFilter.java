@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.mockito.exceptions.stacktrace.StackTraceCleaner;
 import org.mockito.internal.configuration.plugins.Plugins;
+import javax.annotation.Nullable;
 
 public class StackTraceFilter implements Serializable {
 
@@ -20,7 +21,9 @@ public class StackTraceFilter implements Serializable {
             Plugins.getStackTraceCleanerProvider()
                     .getStackTraceCleaner(new DefaultStackTraceCleaner());
 
+    @Nullable
     private static Object JAVA_LANG_ACCESS;
+    @Nullable
     private static Method GET_STACK_TRACE_ELEMENT;
 
     static {
@@ -72,6 +75,7 @@ public class StackTraceFilter implements Serializable {
      *     not be filtered out per {@link StackTraceFilter#CLEANER}.
      * @return The first {@link StackTraceElement} outside of the {@link StackTraceFilter#CLEANER}
      */
+    @Nullable
     public StackTraceElement filterFirst(Throwable target, boolean isInline) {
         boolean shouldSkip = isInline;
 

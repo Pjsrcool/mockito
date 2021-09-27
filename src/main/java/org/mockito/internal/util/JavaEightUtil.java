@@ -8,19 +8,26 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.mockito.creation.instance.InstantiationException;
-
+import javax.annotation.Nullable;
 /**
  * Helper class to work with features that were introduced in Java versions after 1.5.
  * This class uses reflection in most places to avoid coupling with a newer JDK.
  */
+
 public final class JavaEightUtil {
 
     // No need for volatile, these optionals are already safe singletons.
+    @Nullable
     private static Object emptyOptional;
+    @Nullable
     private static Object emptyOptionalDouble;
+    @Nullable
     private static Object emptyOptionalInt;
+    @Nullable
     private static Object emptyOptionalLong;
+    @Nullable
     private static Object emptyDuration;
+    @Nullable
     private static Object emptyPeriod;
 
     private JavaEightUtil() {

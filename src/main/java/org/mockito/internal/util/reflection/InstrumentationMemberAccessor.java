@@ -20,6 +20,7 @@ import java.util.*;
 
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static org.mockito.internal.util.StringUtil.join;
+import javax.annotation.Nullable;
 
 class InstrumentationMemberAccessor implements MemberAccessor {
 
@@ -306,8 +307,8 @@ class InstrumentationMemberAccessor implements MemberAccessor {
 
     private static void assureArguments(
             AccessibleObject target,
-            Object owner,
-            Class<?> type,
+            @Nullable Object owner,
+            @Nullable Class<?> type,
             Object[] values,
             Class<?>[] types) {
         if (owner != null) {

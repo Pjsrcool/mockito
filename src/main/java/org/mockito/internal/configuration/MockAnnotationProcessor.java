@@ -17,10 +17,11 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.util.Supplier;
-
+import javax.annotation.Nullable;
 /**
  * Instantiates a mock on a field annotated by {@link Mock}
  */
+
 public class MockAnnotationProcessor implements FieldAnnotationProcessor<Mock> {
     @Override
     public Object process(Mock annotation, Field field) {
