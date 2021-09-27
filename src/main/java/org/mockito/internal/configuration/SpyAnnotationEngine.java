@@ -26,7 +26,7 @@ import org.mockito.internal.configuration.plugins.Plugins;
 import org.mockito.internal.util.MockUtil;
 import org.mockito.plugins.AnnotationEngine;
 import org.mockito.plugins.MemberAccessor;
-
+import javax.annotation.Nullable;
 /**
  * Process fields annotated with &#64;Spy.
  * <p/>
@@ -45,6 +45,7 @@ import org.mockito.plugins.MemberAccessor;
  * <p/>
  * <p>This engine will fail, if the field is also annotated with incompatible Mockito annotations.
  */
+
 @SuppressWarnings({"unchecked"})
 public class SpyAnnotationEngine
         implements AnnotationEngine, org.mockito.configuration.AnnotationEngine {

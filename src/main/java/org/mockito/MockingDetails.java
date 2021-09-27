@@ -11,7 +11,7 @@ import org.mockito.invocation.MockHandler;
 import org.mockito.mock.MockCreationSettings;
 import org.mockito.quality.MockitoHint;
 import org.mockito.stubbing.Stubbing;
-
+import javax.annotation.Nullable;
 /**
  * Provides mocking information.
  * For example, you can identify whether a particular object is either a mock or a spy.
@@ -19,6 +19,7 @@ import org.mockito.stubbing.Stubbing;
  *
  * @since 1.9.5
  */
+
 public interface MockingDetails {
 
     /**

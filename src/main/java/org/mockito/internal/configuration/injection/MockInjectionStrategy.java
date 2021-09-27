@@ -6,10 +6,11 @@ package org.mockito.internal.configuration.injection;
 
 import java.lang.reflect.Field;
 import java.util.Set;
-
+import org.mockito.Initializer;
 /**
  * Injector strategy contract
  */
+
 public abstract class MockInjectionStrategy {
 
     /**
@@ -36,6 +37,7 @@ public abstract class MockInjectionStrategy {
      * @param strategy Queued strategy.
      * @return The passed strategy instance to allow chaining.
      */
+    @Initializer
     public MockInjectionStrategy thenTry(MockInjectionStrategy strategy) {
         if (nextStrategy != null) {
             nextStrategy.thenTry(strategy);

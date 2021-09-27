@@ -6,7 +6,7 @@ package org.mockito.stubbing;
 
 import org.mockito.Mockito;
 import org.mockito.NotExtensible;
-
+import javax.annotation.Nullable;
 /**
  * Simply put: "<b>When</b> the x method is called <b>then</b> return y". E.g:
  *
@@ -32,6 +32,7 @@ import org.mockito.NotExtensible;
  *
  * See examples in javadoc for {@link Mockito#when}
  */
+
 @NotExtensible
 public interface OngoingStubbing<T> {
 
@@ -47,7 +48,7 @@ public interface OngoingStubbing<T> {
      *
      * @return object that allows stubbing consecutive calls
      */
-    OngoingStubbing<T> thenReturn(T value);
+    OngoingStubbing<T> thenReturn(@Nullable T value);
 
     /**
      * Sets consecutive return values to be returned when the method is called. E.g:
