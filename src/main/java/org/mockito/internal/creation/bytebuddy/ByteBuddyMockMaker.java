@@ -11,7 +11,7 @@ import org.mockito.mock.MockCreationSettings;
 
 import java.util.Optional;
 import java.util.function.Function;
-
+import javax.annotation.Nullable;
 /**
  * ByteBuddy MockMaker.
  *
@@ -21,6 +21,7 @@ import java.util.function.Function;
  *
  * The programmatic API could look like {@code mock(Final.class, withSettings().finalClasses())}.
  */
+
 public class ByteBuddyMockMaker implements ClassCreatingMockMaker {
     private ClassCreatingMockMaker defaultByteBuddyMockMaker = new SubclassByteBuddyMockMaker();
 

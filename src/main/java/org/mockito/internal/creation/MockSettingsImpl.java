@@ -34,6 +34,8 @@ import org.mockito.mock.MockCreationSettings;
 import org.mockito.mock.MockName;
 import org.mockito.mock.SerializableMode;
 import org.mockito.stubbing.Answer;
+import org.mockito.Initializer;
+import javax.annotation.Nullable;
 
 @SuppressWarnings("unchecked")
 public class MockSettingsImpl<T> extends CreationSettings<T>
@@ -42,6 +44,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     private static final long serialVersionUID = 4475297236197939569L;
     private boolean useConstructor;
     private Object outerClassInstance;
+    @Nullable
     private Object[] constructorArgs;
 
     @Override
@@ -83,6 +86,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     }
 
     @Override
+    @Nullable
     public Object getSpiedInstance() {
         return spiedInstance;
     }
@@ -131,6 +135,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     }
 
     @Override
+    @Initializer
     public MockSettings outerInstance(Object outerClassInstance) {
         this.outerClassInstance = outerClassInstance;
         return this;
@@ -153,6 +158,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     }
 
     @Override
+    @Nullable
     public Object[] getConstructorArgs() {
         if (outerClassInstance == null) {
             return constructorArgs;

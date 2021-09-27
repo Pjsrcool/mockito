@@ -21,12 +21,13 @@ import org.mockito.invocation.InvocationContainer;
 import org.mockito.invocation.MockHandler;
 import org.mockito.mock.MockCreationSettings;
 import org.mockito.verification.VerificationMode;
-
+import javax.annotation.Nullable;
 /**
  * Invocation handler set on mock objects.
  *
  * @param <T> type of mock object to handle
  */
+
 public class MockHandlerImpl<T> implements MockHandler<T> {
 
     private static final long serialVersionUID = -2917871070982574165L;
@@ -44,6 +45,7 @@ public class MockHandlerImpl<T> implements MockHandler<T> {
         this.invocationContainer = new InvocationContainerImpl(mockSettings);
     }
 
+    @Nullable
     public Object handle(Invocation invocation) throws Throwable {
         if (invocationContainer.hasAnswersForStubbing()) {
             // stubbing voids with doThrow() or doAnswer() style

@@ -39,7 +39,7 @@ import org.mockito.plugins.MemberAccessor;
 
 import static org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.*;
 import static org.mockito.internal.util.StringUtil.*;
-
+import javax.annotation.Nullable;
 /**
  * Agent and subclass based mock maker.
  * <p>
@@ -98,6 +98,7 @@ import static org.mockito.internal.util.StringUtil.*;
  * (also known as HotSwap). All major VM distributions such as HotSpot (OpenJDK), J9 (IBM/Websphere) or Zing (Azul)
  * support this feature.
  */
+
 @Incubating
 public class InlineByteBuddyMockMaker
         implements ClassCreatingMockMaker, InlineMockMaker, Instantiator {
@@ -293,6 +294,7 @@ public class InlineByteBuddyMockMaker
     }
 
     @Override
+    @Nullable
     public <T> T createMock(MockCreationSettings<T> settings, MockHandler handler) {
         return doCreateMock(settings, handler, false);
     }
@@ -311,6 +313,7 @@ public class InlineByteBuddyMockMaker
         }
     }
 
+    @Nullable
     private <T> T doCreateMock(
             MockCreationSettings<T> settings,
             MockHandler handler,
@@ -412,6 +415,7 @@ public class InlineByteBuddyMockMaker
     }
 
     @Override
+    @Nullable
     public MockHandler getHandler(Object mock) {
         MockMethodInterceptor interceptor;
         if (mock instanceof Class<?>) {
@@ -583,6 +587,7 @@ public class InlineByteBuddyMockMaker
         }
     }
 
+    @Nullable
     private Object makeStandardArgument(Class<?> type) {
         if (type == boolean.class) {
             return false;

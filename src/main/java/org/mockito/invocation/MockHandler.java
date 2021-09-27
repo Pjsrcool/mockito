@@ -9,7 +9,7 @@ import java.io.Serializable;
 import org.mockito.Incubating;
 import org.mockito.MockSettings;
 import org.mockito.mock.MockCreationSettings;
-
+import javax.annotation.Nullable;
 /**
  * Mockito handler of an invocation on a mock. This is a core part of the API, the heart of Mockito.
  * See also the {@link org.mockito.plugins.MockMaker}.
@@ -22,6 +22,7 @@ import org.mockito.mock.MockCreationSettings;
  * You can provide your own implementation of MockHandler but make sure that the right instance is returned by
  * {@link org.mockito.plugins.MockMaker#getHandler(Object)}.
  */
+
 public interface MockHandler<T> extends Serializable {
 
     /**
@@ -35,6 +36,7 @@ public interface MockHandler<T> extends Serializable {
      * @return Result
      * @throws Throwable Throwable
      */
+    @Nullable
     Object handle(Invocation invocation) throws Throwable;
 
     /**

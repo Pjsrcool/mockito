@@ -21,7 +21,7 @@ import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.configuration.plugins.Plugins;
 import org.mockito.plugins.AnnotationEngine;
 import org.mockito.plugins.MemberAccessor;
-
+import javax.annotation.Nullable;
 /**
  * Initializes fields annotated with &#64;{@link org.mockito.Mock} or &#64;{@link org.mockito.Captor}.
  *
@@ -30,6 +30,7 @@ import org.mockito.plugins.MemberAccessor;
  *
  * @see MockitoAnnotations
  */
+
 @SuppressWarnings("unchecked")
 public class IndependentAnnotationEngine
         implements AnnotationEngine, org.mockito.configuration.AnnotationEngine {

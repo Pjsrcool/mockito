@@ -16,6 +16,7 @@ import org.mockito.plugins.MockitoLogger;
 import org.mockito.quality.Strictness;
 import org.mockito.session.MockitoSessionBuilder;
 import org.mockito.session.MockitoSessionLogger;
+import org.mockito.Initializer;
 
 public class DefaultMockitoSessionBuilder implements MockitoSessionBuilder {
 
@@ -61,6 +62,7 @@ public class DefaultMockitoSessionBuilder implements MockitoSessionBuilder {
     }
 
     @Override
+    @Initializer
     public MockitoSession startMocking() {
         // Configure default values
         List<Object> effectiveTestClassInstances;
