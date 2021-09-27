@@ -47,6 +47,7 @@ import static net.bytebuddy.implementation.MethodDelegation.*;
 import static net.bytebuddy.implementation.bind.annotation.TargetMethodAnnotationDrivenBinder.ParameterBinder.ForFixedValue.OfConstant.*;
 import static net.bytebuddy.matcher.ElementMatchers.*;
 import static org.mockito.internal.util.StringUtil.*;
+import javax.annotation.Nullable;
 
 public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTransformer {
 
@@ -75,6 +76,7 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
 
     private final Method getModule, canRead, redefineModule;
 
+    @Nullable
     private volatile Throwable lastException;
 
     public InlineBytecodeGenerator(
@@ -334,6 +336,7 @@ public class InlineBytecodeGenerator implements BytecodeGenerator, ClassFileTran
     }
 
     @Override
+    @Nullable
     public byte[] transform(
             ClassLoader loader,
             String className,

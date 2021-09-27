@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
-
+import org.mockito.Initializer;
 /**
  * <p>
  * A thread-safe map with weak keys. Entries are based on a key's system hash code and keys are considered
@@ -22,6 +22,9 @@ import java.util.concurrent.atomic.AtomicLong;
  * This class does not implement the {@link java.util.Map} interface because this implementation is incompatible
  * with the map contract. While iterating over a map's entries, any key that has not passed iteration is referenced non-weakly.
  */
+import javax.annotation.Nullable;
+import javax.annotation.Nullable;
+
 public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
         implements Runnable, Iterable<Map.Entry<K, V>> {
 
@@ -316,6 +319,7 @@ public class WeakConcurrentMap<K, V> extends ReferenceQueue<K>
         }
 
         @Override
+        @Initializer
         public boolean hasNext() {
             return nextKey != null;
         }

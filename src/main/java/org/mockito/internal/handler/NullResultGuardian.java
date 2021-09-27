@@ -10,12 +10,13 @@ import org.mockito.invocation.Invocation;
 import org.mockito.invocation.InvocationContainer;
 import org.mockito.invocation.MockHandler;
 import org.mockito.mock.MockCreationSettings;
-
+import javax.annotation.Nullable;
 /**
  * Protects the results from delegate MockHandler. Makes sure the results are valid.
  *
  * by Szczepan Faber, created at: 5/22/12
  */
+
 class NullResultGuardian<T> implements MockHandler<T> {
 
     private final MockHandler<T> delegate;

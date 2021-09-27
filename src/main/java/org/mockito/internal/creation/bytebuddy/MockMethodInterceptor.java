@@ -25,6 +25,7 @@ import org.mockito.internal.invocation.RealMethod;
 import org.mockito.invocation.Location;
 import org.mockito.invocation.MockHandler;
 import org.mockito.mock.MockCreationSettings;
+import javax.annotation.Nullable;
 
 public class MockMethodInterceptor implements Serializable {
 

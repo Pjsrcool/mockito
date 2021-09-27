@@ -15,10 +15,11 @@ import org.mockito.listeners.StubbingLookupListener;
 import org.mockito.listeners.VerificationStartedListener;
 import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
-
+import javax.annotation.Nullable;
 /**
  * Informs about the mock settings. An immutable view of {@link org.mockito.MockSettings}.
  */
+
 @NotExtensible
 public interface MockCreationSettings<T> {
 
@@ -45,6 +46,7 @@ public interface MockCreationSettings<T> {
     /**
      * the spied instance - needed for spies.
      */
+    @Nullable
     Object getSpiedInstance();
 
     /**
@@ -111,6 +113,7 @@ public interface MockCreationSettings<T> {
      * @since 2.7.14
      */
     @Incubating
+    @Nullable
     Object[] getConstructorArgs();
 
     /**
@@ -120,6 +123,7 @@ public interface MockCreationSettings<T> {
      * @since 1.10.12
      */
     @Incubating
+    @Nullable
     Object getOuterClassInstance();
 
     /**

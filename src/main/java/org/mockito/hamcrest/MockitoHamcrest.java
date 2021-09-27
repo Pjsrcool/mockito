@@ -11,7 +11,7 @@ import static org.mockito.internal.util.Primitives.defaultValue;
 import org.hamcrest.Matcher;
 import org.mockito.ArgumentMatcher;
 import org.mockito.internal.hamcrest.HamcrestArgumentMatcher;
-
+import javax.annotation.Nullable;
 /**
  * Allows matching arguments with hamcrest matchers.
  * <b>Requires</b> <a href="http://hamcrest.org/JavaHamcrest/">hamcrest</a> on classpath,
@@ -45,6 +45,7 @@ import org.mockito.internal.hamcrest.HamcrestArgumentMatcher;
  *
  * @since 2.1.0
  */
+
 public class MockitoHamcrest {
 
     /**

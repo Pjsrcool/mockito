@@ -11,6 +11,7 @@ import org.mockito.MockitoSession;
 import org.mockito.internal.session.MockitoSessionLoggerAdapter;
 import org.mockito.plugins.MockitoLogger;
 import org.mockito.quality.Strictness;
+import org.mockito.Initializer;
 
 class JUnitSessionStore {
 
@@ -60,6 +61,7 @@ class JUnitSessionStore {
         };
     }
 
+    @Initializer
     void setStrictness(Strictness strictness) {
         this.strictness = strictness;
         // session is null when this method is called during initialization of
