@@ -21,7 +21,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.mock.MockCreationSettings;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Stubbing;
-
+import javax.annotation.Nullable;
 /**
  * Returning deep stub implementation.
  *
@@ -42,10 +42,12 @@ import org.mockito.stubbing.Stubbing;
  * @see org.mockito.Mockito#RETURNS_DEEP_STUBS
  * @see org.mockito.Answers#RETURNS_DEEP_STUBS
  */
+
 public class ReturnsDeepStubs implements Answer<Object>, Serializable {
 
     private static final long serialVersionUID = -7105341425736035847L;
 
+    @Nullable
     public Object answer(InvocationOnMock invocation) throws Throwable {
         GenericMetadataSupport returnTypeGenericMetadata =
                 actualParameterizedType(invocation.getMock())

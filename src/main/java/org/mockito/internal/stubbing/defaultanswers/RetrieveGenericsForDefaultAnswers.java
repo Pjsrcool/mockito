@@ -13,6 +13,7 @@ import org.mockito.internal.util.MockUtil;
 import org.mockito.internal.util.reflection.GenericMetadataSupport;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.mock.MockCreationSettings;
+import javax.annotation.Nullable;
 
 class RetrieveGenericsForDefaultAnswers {
 
@@ -88,6 +89,7 @@ class RetrieveGenericsForDefaultAnswers {
      * @param returnType the expected return type
      * @return the type or null if not found
      */
+    @Nullable
     private static Class<?> findTypeFromGeneric(
             final InvocationOnMock invocation, final TypeVariable returnType) {
         // Class level
@@ -112,6 +114,7 @@ class RetrieveGenericsForDefaultAnswers {
      * @param returnType the expected return type
      * @return the return type or null if the return type cannot be found
      */
+    @Nullable
     private static Class<?> findTypeFromGenericInArguments(
             final InvocationOnMock invocation, final TypeVariable returnType) {
         final Type[] parameterTypes = invocation.getMethod().getGenericParameterTypes();

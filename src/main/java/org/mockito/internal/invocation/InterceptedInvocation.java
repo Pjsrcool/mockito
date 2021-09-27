@@ -18,6 +18,7 @@ import org.mockito.internal.reporting.PrintSettings;
 import org.mockito.invocation.Invocation;
 import org.mockito.invocation.Location;
 import org.mockito.invocation.StubInfo;
+import org.mockito.Initializer;
 
 public class InterceptedInvocation implements Invocation, VerificationAwareInvocation {
 
@@ -88,6 +89,7 @@ public class InterceptedInvocation implements Invocation, VerificationAwareInvoc
     }
 
     @Override
+    @Initializer
     public void markStubbed(StubInfo stubInfo) {
         this.stubInfo = stubInfo;
     }

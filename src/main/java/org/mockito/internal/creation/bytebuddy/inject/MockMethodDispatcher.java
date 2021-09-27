@@ -8,12 +8,14 @@ import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import javax.annotation.Nullable;
 
 public abstract class MockMethodDispatcher {
 
     private static final ConcurrentMap<String, MockMethodDispatcher> DISPATCHERS =
             new ConcurrentHashMap<>();
 
+    @Nullable
     public static MockMethodDispatcher get(String identifier, Object mock) {
         if (mock == DISPATCHERS) {
             // Avoid endless loop if ConcurrentHashMap was redefined to check for being a mock.
@@ -23,6 +25,7 @@ public abstract class MockMethodDispatcher {
         }
     }
 
+    @Nullable
     public static MockMethodDispatcher getStatic(String identifier, Class<?> type) {
         if (MockMethodDispatcher.class.isAssignableFrom(type) || type == ConcurrentHashMap.class) {
             // Avoid endless loop for lookups of self.
@@ -53,9 +56,11 @@ public abstract class MockMethodDispatcher {
                 .handleConstruction(type, object, arguments, parameterTypeNames);
     }
 
+    @Nullable
     public abstract Callable<?> handle(Object instance, Method origin, Object[] arguments)
             throws Throwable;
 
+    @Nullable
     public abstract Callable<?> handleStatic(Class<?> type, Method origin, Object[] arguments)
             throws Throwable;
 
