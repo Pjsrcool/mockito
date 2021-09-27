@@ -34,6 +34,8 @@ import org.mockito.mock.MockCreationSettings;
 import org.mockito.mock.MockName;
 import org.mockito.mock.SerializableMode;
 import org.mockito.stubbing.Answer;
+import org.mockito.Initializer;
+import javax.annotation.Nullable;
 
 @SuppressWarnings("unchecked")
 public class MockSettingsImpl<T> extends CreationSettings<T>
@@ -83,6 +85,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     }
 
     @Override
+    @Nullable
     public Object getSpiedInstance() {
         return spiedInstance;
     }
@@ -131,6 +134,7 @@ public class MockSettingsImpl<T> extends CreationSettings<T>
     }
 
     @Override
+    @Initializer
     public MockSettings outerInstance(Object outerClassInstance) {
         this.outerClassInstance = outerClassInstance;
         return this;

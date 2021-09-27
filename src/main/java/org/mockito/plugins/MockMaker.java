@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static org.mockito.internal.util.StringUtil.join;
-
+import javax.annotation.Nullable;
 /**
  * The facility to create mocks.
  *
@@ -50,6 +50,7 @@ import static org.mockito.internal.util.StringUtil.join;
  * @see org.mockito.invocation.MockHandler
  * @since 1.9.5
  */
+
 public interface MockMaker {
 
     /**

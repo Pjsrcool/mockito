@@ -19,13 +19,16 @@ import org.mockito.mock.MockCreationSettings;
 import org.mockito.mock.MockName;
 import org.mockito.mock.SerializableMode;
 import org.mockito.stubbing.Answer;
+import javax.annotation.Nullable;
 
 public class CreationSettings<T> implements MockCreationSettings<T>, Serializable {
     private static final long serialVersionUID = -6789800638070123629L;
 
     protected Class<T> typeToMock;
     protected Set<Class<?>> extraInterfaces = new LinkedHashSet<Class<?>>();
+    @Nullable
     protected String name;
+    @Nullable
     protected Object spiedInstance;
     protected Answer<Object> defaultAnswer;
     protected MockName mockName;
@@ -44,7 +47,9 @@ public class CreationSettings<T> implements MockCreationSettings<T>, Serializabl
     protected boolean stubOnly;
     protected boolean stripAnnotations;
     private boolean useConstructor;
+    @Nullable
     private Object outerClassInstance;
+    @Nullable
     private Object[] constructorArgs;
     protected boolean lenient;
 
@@ -91,11 +96,13 @@ public class CreationSettings<T> implements MockCreationSettings<T>, Serializabl
         return this;
     }
 
+    @Nullable
     public String getName() {
         return name;
     }
 
     @Override
+    @Nullable
     public Object getSpiedInstance() {
         return spiedInstance;
     }
@@ -154,11 +161,13 @@ public class CreationSettings<T> implements MockCreationSettings<T>, Serializabl
     }
 
     @Override
+    @Nullable
     public Object[] getConstructorArgs() {
         return constructorArgs;
     }
 
     @Override
+    @Nullable
     public Object getOuterClassInstance() {
         return outerClassInstance;
     }
